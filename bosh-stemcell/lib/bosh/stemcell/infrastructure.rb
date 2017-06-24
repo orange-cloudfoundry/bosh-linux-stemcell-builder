@@ -86,7 +86,7 @@ module Bosh::Stemcell
 
     class CloudStack < Base
       def initialize
-        super(name: 'cloudstack', hypervisor: 'xen', default_disk_size: 3072, disk_formats: ['vhdx'], stemcell_formats: "#{name}-#{disk_formats[0]}")
+        super(name: 'cloudstack', hypervisor: 'xen', default_disk_size: 3072, disk_formats: ['vhdx'], stemcell_formats: ['cloudstack-vhdx'])
       end
 
       def additional_cloud_properties
