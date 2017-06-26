@@ -38,6 +38,7 @@ describe 'Ubuntu 14.04 stemcell image', stemcell_image: true do
     exclude_on_vsphere: true,
     exclude_on_openstack: true,
     exclude_on_softlayer: true,
+    exclude_on_cloudstack: true,
   } do
     context 'so we can run upstart in as PID 1 in the container' do
       describe file('/var/vcap/bosh/bin/unshare') do
@@ -210,7 +211,6 @@ HERE
   context 'installed by bosh_aws_agent_settings', {
     exclude_on_google: true,
     exclude_on_openstack: true,
-    exclude_on_cloudstack: true,
     exclude_on_vcloud: true,
     exclude_on_vsphere: true,
     exclude_on_warden: true,
@@ -248,6 +248,7 @@ HERE
     exclude_on_warden: true,
     exclude_on_azure: true,
     exclude_on_softlayer: true,
+    exclude_on_cloudstack: true,
   } do
     describe file('/var/vcap/bosh/agent.json') do
       it { should be_valid_json_file }
@@ -269,8 +270,8 @@ HERE
   } do
     describe file('/var/vcap/bosh/agent.json') do
       it { should be_valid_json_file }
-      it { should contain('"CreatePartitionIfNoEphemeralDisk": true') }
-      it { should contain('"Type": "HTTP"') }
+      its(:content) { should match('"CreatePartitionIfNoEphemeralDisk": true') }
+      its(:content) { should match('"Type": "HTTP"') }
     end
   end
 
@@ -327,6 +328,7 @@ HERE
     let(:dpkg_list_warden_ubuntu) { File.read(spec_asset('dpkg-list-warden-ubuntu.txt')) }
     let(:dpkg_list_google_ubuntu) { File.read(spec_asset('dpkg-list-google-ubuntu.txt')) }
     let(:dpkg_list_openstack_ubuntu) { File.read(spec_asset('dpkg-list-openstack-ubuntu.txt')) }
+    let(:dpkg_list_cloudstack_ubuntu) { File.read(spec_asset('dpkg-list-cloudstack-ubuntu.txt')) }
 
     describe command(dpkg_list_packages), {
       exclude_on_aws: true,
@@ -335,6 +337,7 @@ HERE
       exclude_on_vsphere: true,
       exclude_on_warden: true,
       exclude_on_azure: true,
+      exclude_on_cloudstack: true,
     } do
       its(:stdout) { should eq(dpkg_list_openstack_ubuntu) }
     end
@@ -346,6 +349,7 @@ HERE
       exclude_on_warden: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
+      exclude_on_cloudstack: true,
     } do
       its(:stdout) { should eq(dpkg_list_google_ubuntu) }
     end
@@ -357,6 +361,7 @@ HERE
       exclude_on_vsphere: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
+      exclude_on_cloudstack: true,
     } do
       its(:stdout) { should eq(dpkg_list_warden_ubuntu) }
     end
@@ -368,6 +373,7 @@ HERE
       exclude_on_warden: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
+      exclude_on_cloudstack: true,
     } do
       its(:stdout) { should eq(dpkg_list_vcloud_ubuntu) }
     end
@@ -379,6 +385,7 @@ HERE
       exclude_on_warden: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
+      exclude_on_cloudstack: true,
     } do
       its(:stdout) { should eq(dpkg_list_vsphere_ubuntu) }
     end
@@ -390,9 +397,23 @@ HERE
       exclude_on_warden: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
+      exclude_on_cloudstack: true,
     } do
       its(:stdout) { should eq(dpkg_list_aws_ubuntu) }
     end
+
+    describe command(dpkg_list_packages), {
+      exclude_on_google: true,
+      exclude_on_vcloud: true,
+      exclude_on_vsphere: true,
+      exclude_on_warden: true,
+      exclude_on_azure: true,
+      exclude_on_openstack: true,
+    } do
+      its(:stdout) { should eq(dpkg_list_cloudstack_ubuntu) }
+    end
+    
+
   end
 end
 

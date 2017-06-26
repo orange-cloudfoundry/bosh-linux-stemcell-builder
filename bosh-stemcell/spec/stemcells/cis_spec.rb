@@ -45,8 +45,7 @@ describe 'CIS test case verification', {stemcell_image: true, security_spec: tru
       }
   end
 
-
-  context "For all infrastructure except Azure", {exclude_on_azure:true} do
+  context "For all infrastructure except Azure and Cloudstack", {exclude_on_azure:true, exclude_on_cloudstack:true} do
     it 'confirms that all CIS test cases ran' do
       expected_base_cis_test_cases = base_cis_test_cases
       expected_base_cis_test_cases << 'CIS-2.24'
