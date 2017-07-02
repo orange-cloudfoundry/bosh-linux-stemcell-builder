@@ -7,4 +7,4 @@ source $base_dir/lib/prelude_apply.bash
 source $base_dir/lib/prelude_bosh.bash
 
 cp -p $assets_dir/static_libraries_list.txt $chroot/var/vcap/bosh/etc/static_libraries_list
-chmod 660 $chroot/var/vcap/bosh/etc/static_libraries_list
+chmod 775 $chroot/var/vcap/bosh/etc/static_libraries_list
