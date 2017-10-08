@@ -8,6 +8,46 @@ OS images are stored in S3 bucket [bosh-os-images](http://s3.amazonaws.com/bosh-
 
 Ubuntu 14.04 images have filename `bosh-ubuntu-trusty-os-image.tgz`
 
+* `tvYD9pT3gFnkU74uae2sLFAxpiomuLy3`
+  - USN-3424-1: libxml2 vulnerabilities
+  - built from 3421.x (e984fddbaf71a9254728d4a370cef6d51c98e70a)
+
+* `5d2yXg4.WIKv0covTTZQLjbhbItLkZkh`
+  - USN-3422-2: Linux kernel (Trusty HWE) vulnerabilities
+  - built from 3421.x (7dead8aa63a139c31222a16e2db673a65236e590)
+
+* `8WQb0Mcr_DCuD8um41Y3xe4ESwtUBd0E`
+  - Periodic bump
+  - built from 3421.x (a1e31e323027efc7e456a19278cbd96a69fb3854)
+
+* `zoujfiCIe.5MQXLHjLXawol1NTy_0DTm`
+  - bump os-image to get logrotate 3.8.7-1ubuntu1.2
+  - built from 3421.x (0c251f611bd911892ebc5fe73e15c7eba13b0c97)
+
+* `b629mcCZRgq3VtaYLcisVwhnfCN.HTyX`
+  - USN-3392-2: Linux kernel (Xenial HWE) regression
+  - built from 3421.x (c6274459c16294e695d717bef0d33d0507f5ac55)
+
+* `ukh6oGOCBIb9oc.Fz2Be0Q5KdLLvQCW9`
+  - USN-3385-2: Linux kernel (Xenial HWE) vulnerabilities
+  - built from 3421.x (d2e0df5820fa09d3e8451606301b3f2e90b6db9c)
+
+* `aO4C0Kg5IALLa5QA_6ed9yVl.KgTaUOK`
+  - USN-3378-2: Linux kernel (Xenial HWE) vulnerabilities
+  - built from 3421.x (454d68e5b2a5410f49dd8eb2741ba6c81b48ee33)
+
+* `OM11wAMZHMicV0Qrm7hgINDZVf_R7by9`
+  - Fix for occasional rsyslog hang on startup
+  - built from 3421.x (a7fffa982829f5c5d6e6b34bfa64e19e18fa4d6c)
+
+* `J_Kq_x6enkOS2E48RhZkxNo4fHcjk4Mv`
+  - Periodic bump
+  - built from 3421.x (5d992060b761fb6f6be03d4ce06453b458866e76)
+
+* `RCtv0O6uk1i27kyUsTDiuaXOb0mST58i`
+  - Periodic bump
+  - built from 3421.x (9c8cf0de7a3a795822089905e1fff563f6dafa75)
+
 * `LdXyopXs6TM7i4KShS63YCKKl2VJ5xA1`
   - USN-3344-2: Linux kernel (Xenial HWE) vulnerabilities
   - built from 3421.x (70e35a9482606144eed0d867bc33e30d13a6aa54)
@@ -549,6 +589,34 @@ Ubuntu 14.04 images have filename `bosh-ubuntu-trusty-os-image.tgz`
 ## CentOS 7
 
 CentOS 7 images have filename `bosh-centos-7-os-image.tgz`
+
+* `W8oHGideu.K0fFLI3CY_Izg_nfN1IXRv`
+  - Periodic bump
+  - built from 3421.x (a1e31e323027efc7e456a19278cbd96a69fb3854)
+
+* `vVX0j9SIG4vgmud_bw8jXPcoOIrBZuUr`
+  - bump os-image to get new version of logrotate
+  - built from 3421.x (0c251f611bd911892ebc5fe73e15c7eba13b0c97)
+
+* `5Y.ILdpkIF1axQrjMOaub8MKNZB8hMMl`
+  - Periodic bump
+  - built from 3421.x (c6274459c16294e695d717bef0d33d0507f5ac55)
+
+* `jEp4AAx.jHxaN_O5bWRyUMrYTWQqOSOF`
+  - USN-3378-2: Linux kernel (Xenial HWE) vulnerabilities
+  - built from 3421.x (454d68e5b2a5410f49dd8eb2741ba6c81b48ee33)
+
+* `yW3PXG_8DRzUGv.zWirm.QQ13e9tLVel`
+  - Fix for occasional rsyslog hang on startup
+  - built from 3421.x (a7fffa982829f5c5d6e6b34bfa64e19e18fa4d6c)
+
+* `xWfKG1XmYyWe_z6DTJ0wwiBXWpMFsNYU`
+  - Periodic bump
+  - built from 3421.x (5d992060b761fb6f6be03d4ce06453b458866e76)
+
+* `i3xRHQS7eoNED5jvWUoyx7RGkKTrAOCe`
+  - Periodic bump
+  - built from 3421.x (9c8cf0de7a3a795822089905e1fff563f6dafa75)
 
 * `QIunKWIHRDglVctwRJlqMQeqCB_3IBT9`
   - Periodic bump
