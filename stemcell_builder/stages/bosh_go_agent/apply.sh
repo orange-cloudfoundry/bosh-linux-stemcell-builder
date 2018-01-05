@@ -26,11 +26,11 @@ cp -a $assets_dir/alerts.monitrc $chroot/var/vcap/monit/alerts.monitrc
 
 cd $assets_dir
 if is_ppc64le; then
-  curl -L -o bosh-agent "https://s3.amazonaws.com/bosh-agent-binaries/bosh-agent-0.0.47-linux-ppc64le?versionId=Gt0zOPqKo8dGKIauoDhcgypAjRx5UhZq"
-  echo "2d8c3654e6b5ca026245f80b8a00f0b610f9ca8b08795fb627a045cded52c8c5  bosh-agent" | shasum -a 256 -c -
+  curl -L -o bosh-agent "https://s3.amazonaws.com/bosh-agent-binaries/bosh-agent-2.1.4-linux-ppc64le?versionId=KjQnui0ei1MR1SjL_dwMQiPkMgcahfHT"
+  echo "f68eb2ac8d6410f0490180c16d6412910f737e58b4aa645c159bb525e2cc2e88  bosh-agent" | shasum -a 256 -c -
 else
-  curl -L -o bosh-agent "https://s3.amazonaws.com/bosh-agent-binaries/bosh-agent-0.0.47-linux-amd64?versionId=ylNNhw.Pi2NH6IRsyzDHP148.OpsAV2f"
-  echo "353909faeb0a8b8081d0e3c536fc0b770151a6a393e577d43bf1a2847a75c70e  bosh-agent" | shasum -a 256 -c -
+  curl -L -o bosh-agent "https://s3.amazonaws.com/bosh-agent-binaries/bosh-agent-2.1.4-linux-amd64?versionId=SnmIVCEouszYJrlNWGslA4TET49h32kl"
+  echo "fe103276173d653c687b413f21a55c0dcc45905a036d77c4851c03d89678858b  bosh-agent" | shasum -a 256 -c -
 fi
 mv bosh-agent $chroot/var/vcap/bosh/bin/
 
@@ -41,9 +41,9 @@ cp $assets_dir/mbus/agent.{cert,key} $chroot/var/vcap/bosh/
 cd $assets_dir
 rm -rf davcli
 mkdir davcli
-current_version=0.0.19
+current_version=0.0.23
 curl -L -o davcli/davcli https://s3.amazonaws.com/davcli/davcli-${current_version}-linux-amd64
-echo "ee6163803fc6c3a2a8fa2be04d6800d796a21dfd davcli/davcli" | sha1sum -c -
+echo "bd8c1f02061ca5c5774f1a5eb75b11362b2c1d84 davcli/davcli" | sha1sum -c -
 mv davcli/davcli $chroot/var/vcap/bosh/bin/bosh-blobstore-dav
 chmod +x $chroot/var/vcap/bosh/bin/bosh-blobstore-dav
 
