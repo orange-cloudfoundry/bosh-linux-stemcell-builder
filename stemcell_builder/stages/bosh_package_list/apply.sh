@@ -15,6 +15,12 @@ if [ "${stemcell_operating_system}" == "ubuntu" ]; then
 
   # Export list in stemcell tarball
   cp $chroot/$bosh_dir/stemcell_dpkg_l.out $work/stemcell/stemcell_dpkg_l.txt
+  
+  # Export status in stemcell tarball
+  cp $chroot/var/lib/dpkg/status $work/stemcell/stemcell_dpkg_status.txt
+
+  # Export sources.list in stemcell tarball
+  cp $chroot/etc/apt/sources.list $work/stemcell/stemcell_apt_sources.txt
 
 elif [ "${stemcell_operating_system}" == "centos" ]; then
    # Create list of installed packages
