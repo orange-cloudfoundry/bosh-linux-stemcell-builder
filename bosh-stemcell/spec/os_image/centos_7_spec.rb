@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'CentOS 7 OS image', os_image: true do
   it_behaves_like 'every OS image'
+  it_behaves_like 'an os with ntpdate'
   it_behaves_like 'a CentOS or RHEL based OS image'
   it_behaves_like 'a systemd-based OS image'
   it_behaves_like 'a Linux kernel 3.x based OS image'
@@ -35,6 +36,7 @@ describe 'CentOS 7 OS image', os_image: true do
       e2fsprogs
       flex
       gdb
+      gdisk
       glibc-static
       iptables
       libcap-devel
@@ -92,7 +94,7 @@ describe 'CentOS 7 OS image', os_image: true do
 
       modules = [
         #ata
-        	'ata_generic', 'pata_acpi',
+          'ata_generic', 'pata_acpi',
         #block
           'floppy', 'loop', 'brd',
         #xen
@@ -105,55 +107,55 @@ describe 'CentOS 7 OS image', os_image: true do
           'mptspi', 'mptbase', 'mptscsih','mpt2sas', 'mpt3sas',
         #scsci
           '3w-9xxx',
-        	'3w-sas',
-        	'aic79xx',
-        	'arcmsr',
-        	'bfa',
-        	'fnic',
-        	'hpsa',
-        	'hptiop',
-        	'initio',
-        	'isci',
-        	'libsas',
-        	'lpfc',
-        	'megaraid_sas',
-        	'mtip32xx',
-        	'mvsas',
-        	'mvumi',
-        	'nvme',
-        	'pm80xx',
-        	'pmcraid',
-        	'qla2xxx',
-        	'qla4xxx',
-        	'raid_class',
-        	'stex',
-        	'sx8',
-        	'vmw_pvscsi',
+          '3w-sas',
+          'aic79xx',
+          'arcmsr',
+          'bfa',
+          'fnic',
+          'hpsa',
+          'hptiop',
+          'initio',
+          'isci',
+          'libsas',
+          'lpfc',
+          'megaraid_sas',
+          'mtip32xx',
+          'mvsas',
+          'mvumi',
+          'nvme',
+          'pm80xx',
+          'pmcraid',
+          'qla2xxx',
+          'qla4xxx',
+          'raid_class',
+          'stex',
+          'sx8',
+          'vmw_pvscsi',
         #fs
-	        'cachefiles',
-	        'cifs',
-	        'cramfs',
-	        'dlm',
-	        'libore',
-	        'fscache',
+          'cachefiles',
+          'cifs',
+          'cramfs',
+          'dlm',
+          'libore',
+          'fscache',
           'grace',
           'nfs_acl',
-	        'fuse',
-	        'gfs2',
-	        'isofs',
-	        'nfs',
-	        'nfsd',
-	        'nfsv3',
-	        'nfsv4',
-	        'overlay',
-	        'ramoops',
-	        'squashfs',
-	        'udf',
+          'fuse',
+          'gfs2',
+          'isofs',
+          'nfs',
+          'nfsd',
+          'nfsv3',
+          'nfsv4',
+          'overlay',
+          'ramoops',
+          'squashfs',
+          'udf',
           'btrfs',
           'ext4',
           'jbd2',
           'mbcache',
-	        'xfs'
+          'xfs'
       ]
 
       modules.each do |foo|
@@ -355,20 +357,19 @@ operator:x:11:0:operator:/root:/sbin/nologin
 games:x:12:100:games:/usr/games:/sbin/nologin
 ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
 nobody:x:99:99:Nobody:/:/sbin/nologin
-systemd-bus-proxy:x:999:998:systemd Bus Proxy:/:/sbin/nologin
 systemd-network:x:192:192:systemd Network Management:/:/sbin/nologin
 dbus:x:81:81:System message bus:/:/sbin/nologin
-polkitd:x:998:997:User for polkitd:/:/sbin/nologin
-abrt:x:173:173::/etc/abrt:/sbin/nologin
+polkitd:x:999:998:User for polkitd:/:/sbin/nologin
 rpc:x:32:32:Rpcbind Daemon:/var/lib/rpcbind:/sbin/nologin
-libstoragemgmt:x:997:996:daemon account for libstoragemgmt:/var/run/lsm:/sbin/nologin
+abrt:x:173:173::/etc/abrt:/sbin/nologin
+libstoragemgmt:x:998:997:daemon account for libstoragemgmt:/var/run/lsm:/sbin/nologin
 tcpdump:x:72:72::/:/sbin/nologin
-chrony:x:996:995::/var/lib/chrony:/sbin/nologin
+chrony:x:997:996::/var/lib/chrony:/sbin/nologin
 ntp:x:38:38::/etc/ntp:/sbin/nologin
 tss:x:59:59:Account used by the trousers package to sandbox the tcsd daemon:/dev/null:/sbin/nologin
 sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
 vcap:x:1000:1000:BOSH System User:/home/vcap:/bin/bash
-syslog:x:995:992::/home/syslog:/sbin/nologin
+syslog:x:996:993::/home/syslog:/sbin/nologin
 HERE
       passwd_match_lines = passwd_match_raw.split(/\n+/)
 
@@ -390,7 +391,10 @@ operator:\\*:\\d{5}:0:99999:7:::
 games:\\*:\\d{5}:0:99999:7:::
 ftp:\\*:\\d{5}:0:99999:7:::
 nobody:\\*:\\d{5}:0:99999:7:::
+<<<<<<< HEAD
 systemd-bus-proxy:!!:\\d{5}::::::
+=======
+>>>>>>> stable-3541.12
 systemd-network:!!:\\d{5}::::::
 dbus:!!:\\d{5}::::::
 polkitd:!!:\\d{5}::::::
@@ -406,7 +410,11 @@ vcap:(.+):\\d{5}:1:99999:7:::
 syslog:!!:\\d{5}::::::
 HERE
 
+<<<<<<< HEAD
       shadow_match_lines = shadow_match_raw.split(/\n+/).map { |l| Regexp.new(l) }
+=======
+      shadow_match_lines = shadow_match_raw.split(/\n+/).map { |l| Regexp.new("^#{l}$") }
+>>>>>>> stable-3541.12
       its(:content_as_lines) { should match_array(shadow_match_lines) }
     end
 
@@ -441,29 +449,34 @@ utmp:x:22:
 utempter:x:35:
 input:x:999:
 systemd-journal:x:190:
-systemd-bus-proxy:x:998:
 systemd-network:x:192:
 dbus:x:81:
+<<<<<<< HEAD
 polkitd:x:997:
 abrt:x:173:
 rpc:x:32:
 libstoragemgmt:x:996:
+=======
+polkitd:x:998:
+rpc:x:32:
+abrt:x:173:
+libstoragemgmt:x:997:
+>>>>>>> stable-3541.12
 tcpdump:x:72:
 stapusr:x:156:
 stapsys:x:157:
 stapdev:x:158:
-chrony:x:995:
+chrony:x:996:
 slocate:x:21:
 ntp:x:38:
-ssh_keys:x:994:
+ssh_keys:x:995:
 tss:x:59:
-dip:x:40:vcap
 sshd:x:74:
-admin:x:993:vcap
+admin:x:994:vcap
 vcap:x:1000:syslog
 bosh_sshers:x:1001:vcap
 bosh_sudoers:x:1002:
-syslog:x:992:
+syslog:x:993:
 HERE
       group_lines = group_raw.split(/\n+/)
       its(:content_as_lines) { should match_array(group_lines)}
@@ -501,7 +514,6 @@ utmp:!::
 utempter:!::
 input:!::
 systemd-journal:!::
-systemd-bus-proxy:!::
 systemd-network:!::
 dbus:!::
 polkitd:!::
@@ -517,7 +529,6 @@ slocate:!::
 ntp:!::
 ssh_keys:!::
 tss:!::
-dip:!::vcap
 sshd:!::
 admin:!::vcap
 vcap:!::syslog

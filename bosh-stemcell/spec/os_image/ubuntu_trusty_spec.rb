@@ -4,7 +4,9 @@ require 'shellout_types/file'
 
 describe 'Ubuntu 14.04 OS image', os_image: true do
   it_behaves_like 'every OS image'
+  it_behaves_like 'an os with ntpdate'
   it_behaves_like 'an upstart-based OS image'
+  it_behaves_like 'an Ubuntu-based OS image'
   it_behaves_like 'a Linux kernel 3.x based OS image'
   it_behaves_like 'a Linux kernel module configured OS image'
 
@@ -34,6 +36,7 @@ describe 'Ubuntu 14.04 OS image', os_image: true do
       debconf
       eject
       gnupg
+      gdisk
       ifupdown
       initramfs-tools
       iproute2
@@ -381,6 +384,12 @@ EOF
     end
   end
 
+  context 'auditd is configured to use augenrules' do
+    describe file('/etc/default/auditd') do
+      its(:content) { should match(/USE_AUGENRULES="yes"/) }
+    end
+  end
+
   context 'ensure audit package file have unmodified contents (stig: V-38637)' do
     # ignore auditd.conf, auditd, and audit.rules since we modify these files in
     # other stigs
@@ -462,6 +471,19 @@ EOF
       it { should be_file }
       it { should be_executable }
       its(:content) { should match('service auditd start') }
+    end
+  end
+
+  context 'default user groups that base user should be a part of' do
+    describe user('vcap') do
+      it { should be_in_group 'admin' }
+      it { should be_in_group 'adm' }
+      it { should be_in_group 'audio' }
+      it { should be_in_group 'cdrom' }
+      it { should be_in_group 'dialout' }
+      it { should be_in_group 'floppy' }
+      it { should be_in_group 'video' }
+      it { should be_in_group 'dip' }
     end
   end
 

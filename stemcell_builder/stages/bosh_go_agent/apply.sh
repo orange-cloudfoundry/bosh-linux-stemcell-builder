@@ -26,11 +26,11 @@ cp -a $assets_dir/alerts.monitrc $chroot/var/vcap/monit/alerts.monitrc
 
 cd $assets_dir
 if is_ppc64le; then
-  curl -L -o bosh-agent "https://s3.amazonaws.com/bosh-agent-binaries/bosh-agent-2.1.4-linux-ppc64le?versionId=KjQnui0ei1MR1SjL_dwMQiPkMgcahfHT"
-  echo "f68eb2ac8d6410f0490180c16d6412910f737e58b4aa645c159bb525e2cc2e88  bosh-agent" | shasum -a 256 -c -
+  curl -L -o bosh-agent "https://s3.amazonaws.com/bosh-agent-binaries/bosh-agent-2.67.1-linux-ppc64le?versionId=YL2ZCx9N1b_P1QhE9WMNiMRXjiaa6zaK"
+  echo "9ecb3a458a28f8a0712b99fd6841075a34342fcdce750ecb85ddb89f3d09221f  bosh-agent" | shasum -a 256 -c -
 else
-  curl -L -o bosh-agent "https://s3.amazonaws.com/bosh-agent-binaries/bosh-agent-2.1.4-linux-amd64?versionId=SnmIVCEouszYJrlNWGslA4TET49h32kl"
-  echo "fe103276173d653c687b413f21a55c0dcc45905a036d77c4851c03d89678858b  bosh-agent" | shasum -a 256 -c -
+  curl -L -o bosh-agent "https://s3.amazonaws.com/bosh-agent-binaries/bosh-agent-2.67.1-linux-amd64?versionId=vFlhEUQ7lD14XGhBIQYqo2VVnz5kL.nf"
+  echo "6af59d25174c99f0030db3d39109f855fc4310bed7a4a7d5c47669fc8fa49f01  bosh-agent" | shasum -a 256 -c -
 fi
 mv bosh-agent $chroot/var/vcap/bosh/bin/
 
@@ -41,9 +41,9 @@ cp $assets_dir/mbus/agent.{cert,key} $chroot/var/vcap/bosh/
 cd $assets_dir
 rm -rf davcli
 mkdir davcli
-current_version=0.0.23
+current_version=0.0.26
 curl -L -o davcli/davcli https://s3.amazonaws.com/davcli/davcli-${current_version}-linux-amd64
-echo "bd8c1f02061ca5c5774f1a5eb75b11362b2c1d84 davcli/davcli" | sha1sum -c -
+echo "cd75e886b4f5d27ce41841d5cc902fe64bab7b78 davcli/davcli" | sha1sum -c -
 mv davcli/davcli $chroot/var/vcap/bosh/bin/bosh-blobstore-dav
 chmod +x $chroot/var/vcap/bosh/bin/bosh-blobstore-dav
 
@@ -83,9 +83,6 @@ chown root:root /var/vcap/monit/alerts.monitrc
 # Since go agent is always specified with -C provide empty conf.
 # File will be overwritten in whole by infrastructures.
 echo '{}' > $chroot/var/vcap/bosh/agent.json
-
-# We need to capture ssh events
-cp $assets_dir/rsyslog.d/10-auth_agent_forwarder.conf $chroot/etc/rsyslog.d/10-auth_agent_forwarder.conf
 
 # this directory is utilized by the agent/init/create-env
 # https://github.com/cloudfoundry/bosh-agent/blob/1a6b1e11acd941e65c4f4155c22ff9a8f76098f9/micro/https_handler.go#L119

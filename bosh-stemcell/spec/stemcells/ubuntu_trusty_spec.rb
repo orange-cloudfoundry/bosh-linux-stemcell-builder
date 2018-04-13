@@ -13,7 +13,7 @@ describe 'Ubuntu 14.04 stemcell image', stemcell_image: true do
       its(:content) { should match %r{kernel /boot/vmlinuz-\S+-generic ro root=UUID=} }
       its(:content) { should match ' selinux=0' }
       its(:content) { should match ' cgroup_enable=memory swapaccount=1' }
-      its(:content) { should match ' console=tty0 console=ttyS0,115200n8' }
+      its(:content) { should match ' console=ttyS0,115200n8 console=tty0' }
       its(:content) { should match ' earlyprintk=ttyS0 rootdelay=300' }
       its(:content) { should match %r{initrd /boot/initrd.img-\S+-generic} }
 
@@ -77,9 +77,9 @@ describe 'Ubuntu 14.04 stemcell image', stemcell_image: true do
     end
   end
 
-  context 'installed by bosh_harden' do
+  context 'modified by base_file_permissions' do
     describe 'disallow unsafe setuid binaries' do
-      subject { command('find -L / -xdev -perm +6000 -a -type f') }
+      subject { command('find -L / -xdev -perm /ug=s -type f') }
 
       it('includes the correct binaries') { expect(subject.stdout.split).to match_array(%w(/bin/su /usr/bin/sudo /usr/bin/sudoedit)) }
     end
@@ -322,24 +322,22 @@ HERE
   describe 'installed packages' do
     dpkg_list_packages = "dpkg --get-selections | cut -f1 | sed -E 's/(linux.*4.4).*/\\1/'"
 
-    let(:dpkg_list_aws_ubuntu) { File.read(spec_asset('dpkg-list-aws-ubuntu.txt')) }
-    let(:dpkg_list_vsphere_ubuntu) { File.read(spec_asset('dpkg-list-vsphere-ubuntu.txt')) }
-    let(:dpkg_list_vcloud_ubuntu) { File.read(spec_asset('dpkg-list-vsphere-ubuntu.txt')) }
-    let(:dpkg_list_warden_ubuntu) { File.read(spec_asset('dpkg-list-warden-ubuntu.txt')) }
-    let(:dpkg_list_google_ubuntu) { File.read(spec_asset('dpkg-list-google-ubuntu.txt')) }
-    let(:dpkg_list_openstack_ubuntu) { File.read(spec_asset('dpkg-list-openstack-ubuntu.txt')) }
+    let(:dpkg_list_ubuntu) { File.readlines(spec_asset('dpkg-list-ubuntu-trusty.txt')).map(&:chop) }
+    let(:dpkg_list_google_ubuntu) { File.readlines(spec_asset('dpkg-list-ubuntu-trusty-google-additions.txt')).map(&:chop) }
+    let(:dpkg_list_vsphere_ubuntu) { File.readlines(spec_asset('dpkg-list-ubuntu-trusty-vsphere-additions.txt')).map(&:chop) }
+    let(:dpkg_list_azure_ubuntu) { File.readlines(spec_asset('dpkg-list-ubuntu-trusty-azure-additions.txt')).map(&:chop) }
     let(:dpkg_list_cloudstack_ubuntu) { File.read(spec_asset('dpkg-list-cloudstack-ubuntu.txt')) }
 
     describe command(dpkg_list_packages), {
-      exclude_on_aws: true,
       exclude_on_google: true,
       exclude_on_vcloud: true,
       exclude_on_vsphere: true,
-      exclude_on_warden: true,
       exclude_on_azure: true,
       exclude_on_cloudstack: true,
     } do
-      its(:stdout) { should eq(dpkg_list_openstack_ubuntu) }
+      it 'contains only the base set of packages for aws, openstack, warden' do
+        expect(subject.stdout.split("\n")).to match_array(dpkg_list_ubuntu)
+      end
     end
 
     describe command(dpkg_list_packages), {
@@ -351,55 +349,36 @@ HERE
       exclude_on_openstack: true,
       exclude_on_cloudstack: true,
     } do
-      its(:stdout) { should eq(dpkg_list_google_ubuntu) }
+      it 'contains only the base set of packages plus google-specific packages' do
+        expect(subject.stdout.split("\n")).to match_array(dpkg_list_ubuntu.concat(dpkg_list_google_ubuntu))
+      end
     end
 
     describe command(dpkg_list_packages), {
       exclude_on_aws: true,
       exclude_on_google: true,
-      exclude_on_vcloud: true,
-      exclude_on_vsphere: true,
+      exclude_on_warden: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
       exclude_on_cloudstack: true,
     } do
-      its(:stdout) { should eq(dpkg_list_warden_ubuntu) }
+      it 'contains only the base set of packages plus vsphere-specific packages' do
+        expect(subject.stdout.split("\n")).to match_array(dpkg_list_ubuntu.concat(dpkg_list_vsphere_ubuntu))
+      end
     end
 
     describe command(dpkg_list_packages), {
       exclude_on_aws: true,
-      exclude_on_google: true,
-      exclude_on_vsphere: true,
-      exclude_on_warden: true,
-      exclude_on_azure: true,
-      exclude_on_openstack: true,
-      exclude_on_cloudstack: true,
-    } do
-      its(:stdout) { should eq(dpkg_list_vcloud_ubuntu) }
-    end
-
-    describe command(dpkg_list_packages), {
-      exclude_on_aws: true,
-      exclude_on_google: true,
-      exclude_on_vcloud: true,
-      exclude_on_warden: true,
-      exclude_on_azure: true,
-      exclude_on_openstack: true,
-      exclude_on_cloudstack: true,
-    } do
-      its(:stdout) { should eq(dpkg_list_vsphere_ubuntu) }
-    end
-
-    describe command(dpkg_list_packages), {
-      exclude_on_google: true,
       exclude_on_vcloud: true,
       exclude_on_vsphere: true,
+      exclude_on_google: true,
       exclude_on_warden: true,
-      exclude_on_azure: true,
       exclude_on_openstack: true,
       exclude_on_cloudstack: true,
     } do
-      its(:stdout) { should eq(dpkg_list_aws_ubuntu) }
+      it 'contains only the base set of packages plus azure-specific packages' do
+        expect(subject.stdout.split("\n")).to match_array(dpkg_list_ubuntu.concat(dpkg_list_azure_ubuntu))
+      end
     end
 
     describe command(dpkg_list_packages), {

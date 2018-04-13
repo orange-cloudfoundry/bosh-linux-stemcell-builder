@@ -26,12 +26,6 @@ shared_examples_for 'All Stemcells' do
     end
   end
 
-  context 'grub does not install an EFI bootloader' do
-    describe file('/boot/efi') do
-      it { should_not be_directory }
-    end
-  end
-
   context 'disable remote host login (stig: V-38491)' do
     describe command('find /home -name .rhosts') do
       its (:stdout) { should eq('') }
@@ -95,6 +89,17 @@ shared_examples_for 'All Stemcells' do
   context 'There must be no .netrc files on the system (stig: V-38619)' do
     describe command('sudo find /root /home /var/vcap -xdev -name .netrc') do
       its (:stdout) { should eq('') }
+    end
+  end
+
+  context 'rsyslog conf directory only contains the builder-specified config files', {
+    exclude_on_google: true
+  } do
+    describe command('ls -A /etc/rsyslog.d') do
+      its (:stdout) { should eq(%q(50-default.conf
+avoid-startup-deadlock.conf
+enable-kernel-logging.conf
+))}
     end
   end
 

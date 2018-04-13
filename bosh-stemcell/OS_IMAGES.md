@@ -3,122 +3,106 @@
 
 OS images are stored in S3 bucket [bosh-os-images](http://s3.amazonaws.com/bosh-os-images/).
 
-
 ## Ubuntu 14.04
 
 Ubuntu 14.04 images have filename `bosh-ubuntu-trusty-os-image.tgz`
 
-* `ifYo9AjqVED53p7ouPLRe9dlTOhJEcE2`
+* `mkgv4ljJ33Cd7eJEEMvHCBaKwPwXA9VD`
   - USN-3619-2: Linux kernel (Xenial HWE) vulnerabilities
-  - built from 3421.x (91d886d3eee647c8c51cf076204654ffa40de61b)
+  - built from 3541.x (03e20ed8534cc7a4433cc2080ae34a268d0348f4)
 
-* `hRneffj5i0f77XUIcndRe6TfW6LMmGti`
+* `VfLeLWYu1YNIPB1d3F3LmKW1v_SX78fZ`
   - Periodic bump
-  - built from 3421.x (4a978e9427dae68e8e9ce1b9ed204da8d13eee00)
+  - built from 3541.x (07f005398e4ef437b1365476f5ed2be1cfa4d73b)
 
-* `TB8R_yaRuokjLgpl50AWxkKlINyJS8Y0`
+* `wSsJ4AjID5_tSm5HIX5LcjBRXmDlAXD3`
   - Periodic bump
-  - built from 3421.x (b3f7ae7b329385fbaebfca34ec4f7b15d337bc61)
+  - built from 3541.x (731a3d160a95fa4d814dbe639bfd0b17ed0e4f11)
 
-* `4acLTvuZZa6bNAQG7Q9FTlkKAycoJbOo`
+* `.oWdTlCaR0EETh8LDg0jHZC8AcerXmpB`
+  - Bump ixgbevf 4.2.2 -> 4.3.4
+  - built from 3541.x (dc7371cdb7d1f9aab02f42afa0147e6f10308a0b)
+
+* `q10s1hP1IjS15u5bLOSS7azIGTeEJU3a`
   - USN-3582-2: Linux kernel (Xenial HWE) vulnerabilities
-  - built from 3421.x (ad57b4a3cd1e62d8953d3f46c868abc056304335)
+  - built from 3541.x (77574307bd176c1f22e425be7ef4d20541b3d920)
 
-* `GYvpLeb5JuN7rhkPEvwX4GjAi5jcObAk`
+* `rBGkZW5pIvJ6_js8N_hkYbmTm8cIDRve`
+  - Remove umask changes
+  - built from 3541.x (b95fbaefe4fd5f4737d941baaef1129eb18eb5fa)
+
+* `D5EvMKKnRCGvQAECRBwyfLdLLD5.BVFG`
   - Periodic bump
-  - built from 3421.x (c6117cb35065b7192e4a7afd7e9e5f91906be71d)
+  - built from 3541.x (d19252b0da6978c3a94e9c6c717da4b6cbc6c189)
 
-* `xGuWSgINyyFZARNDCw5VoCiOdvsR2y0_`
-  - USN-3540-2: Linux kernel (Xenial HWE) vulnerabilities
-  - built from 3421.x (d7d07144d7690e0ba24e8fa11850e3b9f43d8c19)
+* `UziQ_fCYp2tG4nKVZUKj_0O8MRGUQAFA`
+  - Add umask changes
+  - built from master (07a11844704dd14d0bd248f1c3ae306e72249f51)
 
-* `lFxeEun9FWhtNY_z2c12xYAbGjD1FjkE`
-  - USN-3534-1: GNU C Library vulnerabilities
-  - built from 3421.x (e38ac0d9b8dbaeffc11e586f78df7f61d8fc22f6)
+* `U8wCPwxQsoiG1.0izDMVrRObun1n_J.W`
+  - Fix sync-time script
+  - built from master (de77af6929dc48a07d7c8e3db6d7b92b78285730)
 
-* `GYNsVOG4VvCmJiG8IRbfyzrxE2mz8nEc`
-  - USN-3522-4: Linux kernel (Xenial HWE) vulnerabilities
-  - built from 3421.x (6a47fccc37317eb4ba51a468c630de1eaa6da98c)
-
-* `keokhzOISbq7pACBMFdHqPXNMHcjF1Sj`
-  - USN-3522-2: Linux kernel (Xenial HWE) vulnerabilities
-  - built from 3421.x (6c70c0e8f29d0db7a73d67fcfda26ad3b6bfe2c5)
-
-* `AQz66oZbFJqLNbVj4Zyc3XNDW4RHtP.F`
-  - USN-3509-2: Linux kernel (Xenial HWE) vulnerabilities
-  - built from 3421.x (5c44ae8520b7053127e40cb26b0b00923002a0a6)
-
-* `CPcqpCdQjh6_Qu.Yzq0ljA3z2xCkPtfW`
-  - USN-3505-1: Linux firmware vulnerabilities
-  - built from 3421.x (5666c44f8393646071ad749644307892c92c6891)
-
-* `F6wCJuJwP1T_kIRB2weE.l1mCrHxVieE`
+* `lz1PrZ22wbWzWPz9mmAx1xJFN8HAsOAU`
   - Periodic bump
-  - built from 3421.x (968af0717aab7dd8fd4365fe094f30b33b764b90)
+  - built from master (7f891a225df648456711855c3604b59198c1b04f)
 
-* `G1yIQJPHsYU9cJ.MQfDQdFtaVc3BvhIu`
+* `tuNJU7fC4UCAP92IdpCKKV5uMAd4RTdW`
   - Periodic bump
-  - built from 3421.x (cc7bee64db36d67bfc253efd26a1e479d4f77202)
+  - built from master (c92e74444ef79eb4d5e827dee16dacc27f65d89e)
 
-* `tvYD9pT3gFnkU74uae2sLFAxpiomuLy3`
-  - USN-3424-1: libxml2 vulnerabilities
-  - built from 3421.x (e984fddbaf71a9254728d4a370cef6d51c98e70a)
+* `8kwlt1sVR2A4Je95x3_MjzkzxZe5q3vx`
+  - refactor /var/vcap/bosh/bin/sync-time
+  - built from master (d81ef5110368b61fd92051fda81ae020ab6aabe6)
 
-* `5d2yXg4.WIKv0covTTZQLjbhbItLkZkh`
+* `G71XaogxhnOY6VIeATzFi.EsTUvLhNNM`
+  - Periodic bump
+  - built from master (a495c5481dea40016bbc9bdcd03313d7bfc019a3)
+
+* `vtxhmn43pPhrsF0Z1J6ANe0qLknE7cTA`
+  - Bump version of ixgbevf to 4.2.2
+  - built from master (98e2153c0d16ef03a915e50ad74f0b7c30caf83b)
+
+* `K8sMoXIn64ezn6zu6cBNr3JJQhTEHbhn`
+  - Periodic bump
+  - built from master (fe5d5856dcb70619f5de30147751ec68a1003f82)
+
+* `2cZrhVYgNhEyqf7ufEewlkczbHZeAG1L`
+  - Periodic bump
   - USN-3422-2: Linux kernel (Trusty HWE) vulnerabilities
-  - built from 3421.x (7dead8aa63a139c31222a16e2db673a65236e590)
+  - built from master (b8e13968d41b9c51f3eee59e1e7560bc297a2af2)
 
-* `8WQb0Mcr_DCuD8um41Y3xe4ESwtUBd0E`
-  - Periodic bump
-  - built from 3421.x (a1e31e323027efc7e456a19278cbd96a69fb3854)
+* `m_U29czb58XlvKg1Mrqtjwj0p84mtdSC`
+  - Bump os-image to get logrotate 3.8.7-1ubuntu12
+  - built from master (051a340072e25babefc1a1a117ab044e12cd377f)
 
-* `zoujfiCIe.5MQXLHjLXawol1NTy_0DTm`
-  - bump os-image to get logrotate 3.8.7-1ubuntu1.2
-  - built from 3421.x (0c251f611bd911892ebc5fe73e15c7eba13b0c97)
+* `ihJo8x_d96oR38fLItL5y7tpWL6lgj.B`
+  - Make auditd rules mutable by default
+  - built from master (7aa3cd9b0cacf646852e1ee762eaf31e1baaf2b1)
 
-* `b629mcCZRgq3VtaYLcisVwhnfCN.HTyX`
+* `cxAdZKzPogT77Dmk_J9DeLbSY46ts.dB`
   - USN-3392-2: Linux kernel (Xenial HWE) regression
-  - built from 3421.x (c6274459c16294e695d717bef0d33d0507f5ac55)
+  - built from master (75623d0c4cd7ec002f26d763fa8db3740efa4f69)
 
-* `ukh6oGOCBIb9oc.Fz2Be0Q5KdLLvQCW9`
+* `lFTzZ3l8SjN7jdGk20ccirvC8Zmgpwjg`
   - USN-3385-2: Linux kernel (Xenial HWE) vulnerabilities
-  - built from 3421.x (d2e0df5820fa09d3e8451606301b3f2e90b6db9c)
+  - built from master (0bbb162561f121136057610655b425b8dfaed928)
 
-* `aO4C0Kg5IALLa5QA_6ed9yVl.KgTaUOK`
+* `clPl6xM8zGROUDkuQYcv2S.hc7ZUDqFA`
   - USN-3378-2: Linux kernel (Xenial HWE) vulnerabilities
-  - built from 3421.x (454d68e5b2a5410f49dd8eb2741ba6c81b48ee33)
+  - built from master (b4b87b224d219a8279ea52c036c096b8930cde7b)
 
-* `OM11wAMZHMicV0Qrm7hgINDZVf_R7by9`
+* `mldQXnQFBxEshqoLtAhSxzjFdK4VsKDk`
   - Fix for occasional rsyslog hang on startup
-  - built from 3421.x (a7fffa982829f5c5d6e6b34bfa64e19e18fa4d6c)
+  - built from master (8afb6b25f5d01961f473afa722e0dc761d934712)
 
-* `J_Kq_x6enkOS2E48RhZkxNo4fHcjk4Mv`
+* `oeP0x5_NSqDqQn9w5LlZKx0ycieR_XCJ`
   - Periodic bump
-  - built from 3421.x (5d992060b761fb6f6be03d4ce06453b458866e76)
+  - built from master (aa5f16c2a6f142a092afd49c7f9bc1f4a6bae36b)
 
-* `RCtv0O6uk1i27kyUsTDiuaXOb0mST58i`
-  - Periodic bump
-  - built from 3421.x (9c8cf0de7a3a795822089905e1fff563f6dafa75)
-
-* `LdXyopXs6TM7i4KShS63YCKKl2VJ5xA1`
-  - USN-3344-2: Linux kernel (Xenial HWE) vulnerabilities
-  - built from 3421.x (70e35a9482606144eed0d867bc33e30d13a6aa54)
-
-* `VF9MsbRej1dJsYt9ReGkCPVFCeHVXsne`
-  - USN-3334-1: Linux kernel (Xenial HWE) vulnerabilities
-  - built from 3421.x (5b9419940368995ec2ae25fba2644a0e87637bc8)
-
-* `4nnsK9Q0ayy7tEw01skvZ5onAdUz1Jk4`
-  - USN-3312-2: Linux kernel vulnerabilities
-  - built from 3421.x (119389f8327c4595ea99a354876f5992b22e8005)
-
-* `k26h9ILhXuXFPICAsgQ1rpVLBkjVRtjJ`
-  - USN-3304-1: Sudo vulnerability
-  - built from 3421.x (e47eedee6177c6f5f6ba631aafa1acf9e4c56d2e)
-
-* `ucvD5sewvM447sC5w9X7IRXHOa8QtAkI`
-  - Periodic bump
-  - built from 3421.x (7ee87952c73cbf511f483d11141769d23964d066)
+* `8zApY4ctWhWag.8ewavNINnJli5NmLeH`
+  - updated rsyslog configuration for precision times
+  - built from master (56863c7b780dda14b85f246f0e2f585fb839ff79)
 
 * `r_WNtzobxc0nnQ8eGDlzholta243M8hq`
   - Periodic bump
@@ -640,6 +624,7 @@ Ubuntu 14.04 images have filename `bosh-ubuntu-trusty-os-image.tgz`
 
 ## CentOS 7
 
+<<<<<<< HEAD
 CentOS 7 images have filename `bosh-centos-7-os-image.tgz`
 
 * `W8oHGideu.K0fFLI3CY_Izg_nfN1IXRv`
@@ -681,6 +666,99 @@ CentOS 7 images have filename `bosh-centos-7-os-image.tgz`
 * `h1JRyxA8NQob9yshnOasR7j8S47X8Yz6`
   - CESA-2017:1382: Sudo vulnerability
   - built from 3421.x (7ff41138b36de61e6e05ca83d96007123a8f3bf3)
+=======
+## CentOS 7
+
+CentOS 7 images have filename `bosh-centos-7-os-image.tgz`
+
+* `6LucVsKng_7lpsZh.o0J_fJ2RROZyOKe`
+  - USN-3619-2: Linux kernel (Xenial HWE) vulnerabilities
+  - built from 3541.x (03e20ed8534cc7a4433cc2080ae34a268d0348f4)
+
+* `DnqiofUc.xY59MgntI14eKlMAuMeZz2P`
+  - Periodic bump
+  - built from 3541.x (07f005398e4ef437b1365476f5ed2be1cfa4d73b)
+
+* `8x3ZTCtaFM8vnBK52X..esiqw6qdORi2`
+  - Periodic bump
+  - built from 3541.x (731a3d160a95fa4d814dbe639bfd0b17ed0e4f11)
+
+* `dwj7lQPj.YJuwCd.UJVABAwBMnSGrOt6`
+  - Bump ixgbevf 4.2.2 -> 4.3.4
+  - built from 3541.x (dc7371cdb7d1f9aab02f42afa0147e6f10308a0b)
+
+* `0D_NdPeIr0uKe.jeEChtEkoMAYFkn3l3`
+  - Remove umask changes
+  - built from 3541.x (b95fbaefe4fd5f4737d941baaef1129eb18eb5fa)
+
+* `f4l23fzh57NyXdbtQqjtGmPe9M2mlC3l`
+  - Periodic bump
+  - built from 3541.x (d19252b0da6978c3a94e9c6c717da4b6cbc6c189)
+
+* `nGbRvopAX.1uoP3gddZ4dUl7d3Y_WeF6`
+  - Add umask changes
+  - built from master (07a11844704dd14d0bd248f1c3ae306e72249f51)
+
+* `skD_a_3vQcVRfWaWidnN.HrD6srcyoVl`
+  - Ensure rsyslog is started after bind mount is created at /var/log
+  - built from master (0a52c872e6e0bf5f0b225027040270dc63596de6)
+
+* `X.5SPARRtIEqJUce18JMMR7AEdemYV26`
+  - Periodic bump
+  - built from master (7f891a225df648456711855c3604b59198c1b04f)
+
+* `vb_TNB_nbU4Q689j_LSLX2SIxLRKnjPe`
+  - Periodic bump
+  - built from master (c92e74444ef79eb4d5e827dee16dacc27f65d89e)
+
+* `pEKS.VlpukuR0SQaLdOjuf9ZhT7YBeIq`
+  - refactor /var/vcap/bosh/bin/sync-time
+  - built from master (d81ef5110368b61fd92051fda81ae020ab6aabe6)
+
+* `uAVB2a0ojcpV9Vq0t2hkdHi_ScFr21x5`
+  - Periodic bump
+  - built from master (4d3571fb6acc41224b1470ae4d7518d459b54637)
+
+* `7Lo4I8Cc__obnPb011SL_KzZfKyXqVLf`
+  - Periodic bump
+  - built from master (a495c5481dea40016bbc9bdcd03313d7bfc019a3)
+
+* `7Fx.ggVjNsKByV_t3arRW2pBpzJ_nE9W`
+  - Upgrade to centos 7.4
+  - built from master (98e2153c0d16ef03a915e50ad74f0b7c30caf83b)
+
+* `JRWJGXQazjhzWM.S5qW.573fmI4dsfFi`
+  - bump os-image to get newer logrotate
+  - built from master (051a340072e25babefc1a1a117ab044e12cd377f)
+
+* `AxujRQcXRggs7x17hKz3ImaI6q3b.ik7`
+  - Make auditd rules mutable by default
+  - built from master (7aa3cd9b0cacf646852e1ee762eaf31e1baaf2b1)
+
+* `ZF9M8.wWClnvTrXSSrreednJcDAzns.9`
+  - Periodic bump
+  - built from master (75623d0c4cd7ec002f26d763fa8db3740efa4f69)
+
+* `MOpHI7NvEQyUoGjMDEzqU2vR3nNqoDj4`
+  - Periodic bump
+  - built from master (0bbb162561f121136057610655b425b8dfaed928)
+
+* `T7ljccputCgQ_GQgzYZ3YLPe0nJWRzLF`
+  - Periodic bump
+  - built from master (b4b87b224d219a8279ea52c036c096b8930cde7b)
+
+* `7l.1KviBUAkKAqIA4K19P.kojGGctzLk`
+  - Fix for occasional rsyslog hang on startup
+  - built from master (8afb6b25f5d01961f473afa722e0dc761d934712)
+
+* `1MIhQFwaMHis56U0H64Fd6cwCotTSocp`
+  - Periodic bump
+  - built from master (aa5f16c2a6f142a092afd49c7f9bc1f4a6bae36b)
+
+* `qWEsvsL_cKNsR_P4Ou9lY1bUngcUbX2j`
+  - updated rsyslog configuration for precision times
+  - built from master (56863c7b780dda14b85f246f0e2f585fb839ff79)
+>>>>>>> stable-3541.12
 
 * `rvM9hTPYTmIErAmhyzaMRcfgD4xcMzxR`
   - Periodic bump

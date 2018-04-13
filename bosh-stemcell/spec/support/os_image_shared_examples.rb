@@ -19,6 +19,12 @@ shared_examples_for 'every OS image' do
     end
   end
 
+  context 'effective GID for UID vcap' do
+    describe command("id -gn vcap") do
+      its (:stdout) { should eq "vcap\n" }
+    end
+  end
+
   context 'The sudo command must require authentication (stig: V-58901)' do
     describe command("egrep -sh 'NOPASSWD|!authenticate' /etc/sudoers /etc/sudoers.d/* | egrep -v '^#|%bosh_sudoers\s' --") do
       its (:stdout) { should eq('') }
@@ -62,21 +68,7 @@ shared_examples_for 'every OS image' do
     end
 
     describe user('vcap') do
-      it { should be_in_group 'admin' }
-      it { should be_in_group 'adm' }
-      it { should be_in_group 'audio' }
-      it { should be_in_group 'cdrom' }
-      it { should be_in_group 'dialout' }
-      it { should be_in_group 'floppy' }
-      it { should be_in_group 'video' }
-      it { should be_in_group 'dip' }
       it { should be_in_group 'bosh_sshers' }
-    end
-  end
-
-  describe command('crontab -l') do
-    it 'keeps the system clock up to date (stig: V-38620 V-38621)' do
-      expect(subject.stdout).to include '0,15,30,45 * * * * /var/vcap/bosh/bin/ntpdate'
     end
   end
 
@@ -336,12 +328,6 @@ shared_examples_for 'every OS image' do
           expect(lines[idx]).not_to(match /(\S+\s+){2}cron\./)
         end
       end
-    end
-  end
-
-  context 'gdisk' do
-    it 'should be installed' do
-      expect(package('gdisk')).to be_installed
     end
   end
 
@@ -627,9 +613,9 @@ shared_examples_for 'every OS image' do
       its(:content) { should match /^-a always,exit -F arch=b32 -S unlink -S unlinkat -S rmdir -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete$/ }
     end
 
-    describe 'audit rules are made immutable (CIS-8.1.18)' do
-      it 'last line should be -e 2' do
-        expect(subject.content.split("\n").last).to eq '-e 2'
+    describe 'audit rules are made mutable (CIS-8.1.18)' do
+      it 'should not have a -e 2 line' do
+        expect(subject.content).not_to match '-e 2'
       end
     end
 
@@ -750,6 +736,13 @@ shared_examples_for 'every OS image' do
   context 'postfix is not installed (stig: V-38622) (stig: V-38446)' do
     it "shouldn't be installed" do
       expect(package('postfix')).to_not be_installed
+    end
+  end
+
+  context 'installed binaries' do
+    describe file('/var/vcap/bosh/bin/sync-time') do
+      it { should be_file }
+      it { should be_executable }
     end
   end
 end
