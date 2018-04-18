@@ -3,7 +3,57 @@
 
 OS images are stored in S3 bucket [bosh-os-images](http://s3.amazonaws.com/bosh-os-images/).
 
-## Ubuntu 14.04
+## Ubuntu 16.04
+
+Ubuntu 16.04 images have filename `bosh-ubuntu-xenial-os-image.tgz`
+
+* `mnY4sdr2H7pplJ.IYMzoeaxdTzS4HKY7`
+  - Only start chrony service after update config
+  - built from master (23a8a5ce5f77cef0ff00f0f52cede9b8a23f5160)
+
+* `By3Zgyj97MkdE8evRkDb850k9PQLbjB7`
+  - USN-3619-2: Linux kernel (Xenial HWE) vulnerabilities
+  - built from master (906e0b938262b6d2cfe9b7278a6b911db30ff51e)
+
+* `Jo93p5TOY7s.9PgxXq1qW.yhf5Sdyr.V`
+  - Periodic bump
+  - built from master (895e1ef1c4e5f8311ae94926e357f4e5566cbc43)
+
+* `xUXLkZti.HovXjIN8zJsyHiz_7q92xe_`
+  - Periodic bump
+  - built from master (d98f12dc742ad61e4af6981be24fe7e23fd54062)
+
+* `LrbAMDDxUAzW0kbtWWDcKnEKSjQZagDR`
+  - Bump ixgbevf 4.2.2 -> 4.3.4
+  - built from master (c63518b27bc7c4f8fd570822af3678a799783f4c)
+
+* `tAzc_KVnQkbRExvREIXA416njtf1fJFo`
+  - Remove umask changes from os image
+  - built from master (a884dcded16524be753b6d1f4bcb66bcbe13f7d3)
+
+* `h1O7ipVJZqjqYf1bIS2NFl194zIev88I`
+  - Add umask changes
+  - built from master (07a11844704dd14d0bd248f1c3ae306e72249f51)
+
+* `fYIzkFFX.O8GDLUOd5C9IAOCNHRtcaVu`
+  - Remount / as rprivate to fix issues with garden
+  - built from master (914b37862104cad6b49b3630be4570c90ef6be20)
+
+* `cThEYpZDLxVuLlm32BN29oSQZ7CxrmHC`
+  - chrony will now force sync systemtime at stemcell boot
+  - built from master (4aa2203b0fc11212fcdca53ff7b7adaa75359c52)
+
+* `6VnS_oNe42ReXaKd__nJvQ6ckUCGtWGq`
+  - Ensure rsyslog is started after bind mount is created at /var/log
+  - built from master (0a52c872e6e0bf5f0b225027040270dc63596de6)
+
+* `jouTj71JrZKnTf486DpDRJSdh9SZ1g6x`
+  - bump debootstrap version
+  - built from master (7f891a225df648456711855c3604b59198c1b04f)
+
+* `UWLqyMZYpnrmBbporWp2WVFA5vtFCOCH`
+  - Remove packages crda, iw, wireless-crda, wireless-regdb, and mg
+  - built from master (c92e74444ef79eb4d5e827dee16dacc27f65d89e)
 
 Ubuntu 14.04 images have filename `bosh-ubuntu-trusty-os-image.tgz`
 
@@ -34,6 +84,30 @@ Ubuntu 14.04 images have filename `bosh-ubuntu-trusty-os-image.tgz`
 * `D5EvMKKnRCGvQAECRBwyfLdLLD5.BVFG`
   - Periodic bump
   - built from 3541.x (d19252b0da6978c3a94e9c6c717da4b6cbc6c189)
+
+* `uwo7KC.x1bYs2FU30mNRmkVHKhQ3DJVF`
+  - Periodic bump
+  - built from master (23a8a5ce5f77cef0ff00f0f52cede9b8a23f5160)
+
+* `RcJii5ynUjEPNnu8uTNmz.997LCi9tIC`
+  - USN-3619-2: Linux kernel (Xenial HWE) vulnerabilities
+  - built from master (906e0b938262b6d2cfe9b7278a6b911db30ff51e)
+
+* `pPq76RHGuPAEZ0CLmsb1cbkZZoJz7RUa`
+  - Periodic bump
+  - built from master (895e1ef1c4e5f8311ae94926e357f4e5566cbc43)
+
+* `uEqbbhG3hwdlEC6J.6gsB_T7_inLs.p3`
+  - Periodic bump
+  - built from master (d98f12dc742ad61e4af6981be24fe7e23fd54062)
+
+* `j_oBo7KqBvn7LzZbCZR4lw_4f.GtZjUz`
+  - Bump ixgbevf 4.2.2 -> 4.3.4
+  - built from master (c63518b27bc7c4f8fd570822af3678a799783f4c)
+
+* `K9y4vI6Swcz_oeHBpJjFHlU8XQFy.E.9`
+  - Remove umask changes from os image
+  - built from master (a884dcded16524be753b6d1f4bcb66bcbe13f7d3)
 
 * `UziQ_fCYp2tG4nKVZUKj_0O8MRGUQAFA`
   - Add umask changes
@@ -671,6 +745,7 @@ CentOS 7 images have filename `bosh-centos-7-os-image.tgz`
 
 CentOS 7 images have filename `bosh-centos-7-os-image.tgz`
 
+<<<<<<< HEAD
 * `6LucVsKng_7lpsZh.o0J_fJ2RROZyOKe`
   - USN-3619-2: Linux kernel (Xenial HWE) vulnerabilities
   - built from 3541.x (03e20ed8534cc7a4433cc2080ae34a268d0348f4)
@@ -694,6 +769,31 @@ CentOS 7 images have filename `bosh-centos-7-os-image.tgz`
 * `f4l23fzh57NyXdbtQqjtGmPe9M2mlC3l`
   - Periodic bump
   - built from 3541.x (d19252b0da6978c3a94e9c6c717da4b6cbc6c189)
+=======
+* `lMuKiMXu.wCwGh5Lt4uZoN6GTVu21mKj`
+  - Periodic bump
+  - built from master (23a8a5ce5f77cef0ff00f0f52cede9b8a23f5160)
+
+* `By3Zgyj97MkdE8evRkDb850k9PQLbjB7`
+  - USN-3619-2: Linux kernel (Xenial HWE) vulnerabilities
+  - built from master (906e0b938262b6d2cfe9b7278a6b911db30ff51e)
+
+* `OJVPOMdCdpxknC2LPZspsGt6tXTlABt5`
+  - Periodic bump
+  - built from master (895e1ef1c4e5f8311ae94926e357f4e5566cbc43)
+
+* `pX5IKCVlM1_TzKdIZ_HfVgfxOYDWdfOo`
+  - Periodic bump
+  - built from master (d98f12dc742ad61e4af6981be24fe7e23fd54062)
+
+* `bRx.yU16rrr5HKtRwJ7IffQ5Aqh92ec_`
+  - Bump ixgbevf 4.2.2 -> 4.3.4
+  - built from master (c63518b27bc7c4f8fd570822af3678a799783f4c)
+
+* `ev..9oZ8yHPB1dMKHf93Redboor1YV1k`
+  - Remove umask changes from os image
+  - built from master (a884dcded16524be753b6d1f4bcb66bcbe13f7d3)
+>>>>>>> 458d14a97c1f2634299be0433dc13d5be86fbecb
 
 * `nGbRvopAX.1uoP3gddZ4dUl7d3Y_WeF6`
   - Add umask changes

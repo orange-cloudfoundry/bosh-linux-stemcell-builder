@@ -38,6 +38,7 @@ describe 'Ubuntu 16.04 stemcell image', stemcell_image: true do
     exclude_on_vsphere: true,
     exclude_on_openstack: true,
     exclude_on_softlayer: true,
+    exclude_on_cloudstack: true,
   } do
     context 'so we can run upstart in as PID 1 in the container' do
       describe file('/var/vcap/bosh/bin/unshare') do
@@ -115,6 +116,7 @@ describe 'Ubuntu 16.04 stemcell image', stemcell_image: true do
     exclude_on_warden: true,
     exclude_on_openstack: true,
     exclude_on_softlayer: true,
+    exclude_on_cloudstack: true,
   } do
     describe file('/etc/network/interfaces') do
       it { should be_file }
@@ -131,6 +133,7 @@ describe 'Ubuntu 16.04 stemcell image', stemcell_image: true do
     exclude_on_openstack: true,
     exclude_on_azure: true,
     exclude_on_softlayer: true,
+    exclude_on_cloudstack: true,
   } do
     describe package('open-vm-tools') do
       it { should be_installed }
@@ -145,6 +148,7 @@ describe 'Ubuntu 16.04 stemcell image', stemcell_image: true do
       exclude_on_warden: true,
       exclude_on_openstack: true,
       exclude_on_azure: true,
+      exclude_on_cloudstack: true,
   } do
     describe package('open-iscsi') do
       it { should be_installed }
@@ -159,6 +163,7 @@ describe 'Ubuntu 16.04 stemcell image', stemcell_image: true do
       exclude_on_warden: true,
       exclude_on_openstack: true,
       exclude_on_azure: true,
+      exclude_on_cloudstack: true,
   } do
     describe package('multipath-tools') do
       it { should be_installed }
@@ -173,6 +178,7 @@ describe 'Ubuntu 16.04 stemcell image', stemcell_image: true do
     exclude_on_openstack: true,
     exclude_on_azure: true,
     exclude_on_softlayer: true,
+    exclude_on_cloudstack: true,
   } do
     describe file('/etc/udev/rules.d/60-cdrom_id.rules') do
       it { should be_file }
@@ -210,6 +216,7 @@ HERE
     exclude_on_warden: true,
     exclude_on_azure: true,
     exclude_on_softlayer: true,
+    exclude_on_cloudstack: true,
   } do
     describe file('/var/vcap/bosh/agent.json') do
       it { should be_valid_json_file }
@@ -225,6 +232,7 @@ HERE
     exclude_on_warden: true,
     exclude_on_azure: true,
     exclude_on_softlayer: true,
+    exclude_on_cloudstack: true,
   } do
     describe file('/var/vcap/bosh/agent.json') do
       it { should be_valid_json_file }
@@ -240,6 +248,7 @@ HERE
     exclude_on_warden: true,
     exclude_on_azure: true,
     exclude_on_softlayer: true,
+    exclude_on_cloudstack: true,
   } do
     describe file('/var/vcap/bosh/agent.json') do
       it { should be_valid_json_file }
@@ -257,6 +266,7 @@ HERE
     exclude_on_warden: true,
     exclude_on_azure: true,
     exclude_on_softlayer: true,
+    exclude_on_cloudstack: true,
   } do
     describe file('/var/vcap/bosh/agent.json') do
       it { should be_valid_json_file }
@@ -272,12 +282,27 @@ HERE
       exclude_on_warden: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
+      exclude_on_cloudstack: true,
   } do
     describe file('/var/vcap/bosh/agent.json') do
       it { should be_valid_json_file }
       its(:content) { should match('"Type": "File"') }
       its(:content) { should match('"SettingsPath": "/var/vcap/bosh/user_data.json"') }
       its(:content) { should match('"UseRegistry": true') }
+    end
+  end
+
+  context 'installed by bosh_cloudstack_agent_settings', {
+      exclude_on_aws: true,
+      exclude_on_google: true,
+      exclude_on_vcloud: true,
+      exclude_on_vsphere: true,
+      exclude_on_warden: true,
+      exclude_on_azure: true,
+      exclude_on_openstack: true,
+  } do
+    describe file('/var/vcap/bosh/agent.json') do
+      it { should be_valid_json_file }
     end
   end
 
@@ -310,7 +335,7 @@ HERE
       exclude_on_vsphere: true,
       exclude_on_azure: true,
     } do
-      it 'contains only the base set of packages for aws, openstack, warden' do
+      it 'contains only the base set of packages for aws, openstack, warden and cloudstack' do
         expect(subject.stdout.split("\n")).to match_array(dpkg_list_ubuntu)
       end
     end
@@ -322,6 +347,7 @@ HERE
       exclude_on_warden: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
+      exclude_on_cloudstack: true,
     } do
       it 'contains only the base set of packages plus google-specific packages' do
         expect(subject.stdout.split("\n")).to match_array(dpkg_list_ubuntu.concat(dpkg_list_google_ubuntu))
@@ -334,6 +360,7 @@ HERE
       exclude_on_warden: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
+      exclude_on_cloudstack: true,
     } do
       it 'contains only the base set of packages plus vsphere-specific packages' do
         expect(subject.stdout.split("\n")).to match_array(dpkg_list_ubuntu.concat(dpkg_list_vsphere_ubuntu))
@@ -347,6 +374,7 @@ HERE
       exclude_on_google: true,
       exclude_on_warden: true,
       exclude_on_openstack: true,
+      exclude_on_cloudstack: true,
     } do
       it 'contains only the base set of packages plus azure-specific packages' do
         expect(subject.stdout.split("\n")).to match_array(dpkg_list_ubuntu.concat(dpkg_list_azure_ubuntu))
