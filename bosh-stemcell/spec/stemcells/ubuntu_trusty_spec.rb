@@ -326,7 +326,7 @@ HERE
     let(:dpkg_list_google_ubuntu) { File.readlines(spec_asset('dpkg-list-ubuntu-trusty-google-additions.txt')).map(&:chop) }
     let(:dpkg_list_vsphere_ubuntu) { File.readlines(spec_asset('dpkg-list-ubuntu-trusty-vsphere-additions.txt')).map(&:chop) }
     let(:dpkg_list_azure_ubuntu) { File.readlines(spec_asset('dpkg-list-ubuntu-trusty-azure-additions.txt')).map(&:chop) }
-    let(:dpkg_list_cloudstack_ubuntu) { File.read(spec_asset('dpkg-list-cloudstack-ubuntu.txt')) }
+    let(:dpkg_list_cloudstack_ubuntu) { File.read(spec_asset('dpkg-list-ubuntu-trusty-cloudstack-additions.txt')) }
 
     describe command(dpkg_list_packages), {
       exclude_on_google: true,
@@ -389,9 +389,9 @@ HERE
       exclude_on_azure: true,
       exclude_on_openstack: true,
     } do
-      its(:stdout) { should eq(dpkg_list_cloudstack_ubuntu) }
+      it 'contains only the base set of packages plus cloudstack-specific packages' do
+        expect(subject.stdout.split("\n")).to match_array(dpkg_list_ubuntu.concat(dpkg_list_cloudstack_ubuntu))
     end
-    
 
   end
 end
