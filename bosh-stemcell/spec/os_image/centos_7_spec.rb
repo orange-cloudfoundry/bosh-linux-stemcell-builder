@@ -85,7 +85,7 @@ describe 'CentOS 7 OS image', os_image: true do
 
   context 'installed by system_grub' do
     describe package('grub2-tools') do
-      it { should be_installed }
+      it { should be_installed, -> { "Message: #{subject.last_message} #{subject.last_error}" } }
     end
   end
 
@@ -324,7 +324,7 @@ describe 'CentOS 7 OS image', os_image: true do
 
   context 'restrict access to the su command CIS-9.5' do
     describe command('grep "^\s*auth\s*required\s*pam_wheel.so\s*use_uid" /etc/pam.d/su') do
-      it('exits 0') { expect(subject.exit_status).to eq(0) }
+      it('exits 0') { expect(subject.exit_status).to eq(0), -> { "Stdout: #{subject.stdout} Stderr: #{subject.stderr}" } }
     end
     describe user('vcap') do
       it { should exist }
@@ -391,10 +391,6 @@ operator:\\*:\\d{5}:0:99999:7:::
 games:\\*:\\d{5}:0:99999:7:::
 ftp:\\*:\\d{5}:0:99999:7:::
 nobody:\\*:\\d{5}:0:99999:7:::
-<<<<<<< HEAD
-systemd-bus-proxy:!!:\\d{5}::::::
-=======
->>>>>>> stable-3541.12
 systemd-network:!!:\\d{5}::::::
 dbus:!!:\\d{5}::::::
 polkitd:!!:\\d{5}::::::
@@ -410,11 +406,7 @@ vcap:(.+):\\d{5}:1:99999:7:::
 syslog:!!:\\d{5}::::::
 HERE
 
-<<<<<<< HEAD
-      shadow_match_lines = shadow_match_raw.split(/\n+/).map { |l| Regexp.new(l) }
-=======
       shadow_match_lines = shadow_match_raw.split(/\n+/).map { |l| Regexp.new("^#{l}$") }
->>>>>>> stable-3541.12
       its(:content_as_lines) { should match_array(shadow_match_lines) }
     end
 
@@ -438,7 +430,7 @@ man:x:15:
 dialout:x:18:vcap
 floppy:x:19:vcap
 games:x:20:
-tape:x:30:
+tape:x:33:
 video:x:39:vcap
 ftp:x:50:
 lock:x:54:
@@ -451,17 +443,10 @@ input:x:999:
 systemd-journal:x:190:
 systemd-network:x:192:
 dbus:x:81:
-<<<<<<< HEAD
-polkitd:x:997:
-abrt:x:173:
-rpc:x:32:
-libstoragemgmt:x:996:
-=======
 polkitd:x:998:
 rpc:x:32:
 abrt:x:173:
 libstoragemgmt:x:997:
->>>>>>> stable-3541.12
 tcpdump:x:72:
 stapusr:x:156:
 stapsys:x:157:
