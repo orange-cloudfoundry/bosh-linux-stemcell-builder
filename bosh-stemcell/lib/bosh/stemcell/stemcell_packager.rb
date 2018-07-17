@@ -73,8 +73,9 @@ module Bosh
         stemcell_name = ArchiveFilename.new(version, definition, 'bosh-stemcell', disk_format).to_s
         tarball_name = File.join(tarball_path, stemcell_name)
 
-        ## Custo DFY pour clair
-        expected = ['stemcell.MF', 'packages.txt', 'dev_tools_file_list.txt', 'image', 'stemcell_apt_sources.txt', 'stemcell_dpkg_status.txt']
+        expected = ['stemcell.MF', 'packages.txt', 'dev_tools_file_list.txt', 'image']
+	## Custo DFY pour clair
+	expected.push('stemcell_apt_sources.txt', 'stemcell_dpkg_status.txt')
         Dir.chdir(stemcell_build_path) do
           stdout, stderr, status = Open3.capture3('ls')
           raise stderr unless status.success?
