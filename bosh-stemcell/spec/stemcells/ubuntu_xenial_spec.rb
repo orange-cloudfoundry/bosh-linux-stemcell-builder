@@ -13,7 +13,7 @@ describe 'Ubuntu 16.04 stemcell image', stemcell_image: true do
       its(:content) { should match %r{kernel /boot/vmlinuz-\S+-generic ro root=UUID=} }
       its(:content) { should match ' selinux=0' }
       its(:content) { should match ' cgroup_enable=memory swapaccount=1' }
-      its(:content) { should match ' console=ttyS0,115200n8 console=tty0' }
+      its(:content) { should match ' console=ttyS0,115200n8 console=hvc0' }
       its(:content) { should match ' earlyprintk=ttyS0 rootdelay=300' }
       its(:content) { should match %r{initrd /boot/initrd.img-\S+-generic} }
 
@@ -36,6 +36,7 @@ describe 'Ubuntu 16.04 stemcell image', stemcell_image: true do
     exclude_on_google: true,
     exclude_on_vcloud: true,
     exclude_on_vsphere: true,
+    exclude_on_cloudstack: true,
     exclude_on_openstack: true,
     exclude_on_softlayer: true,
   } do
@@ -67,11 +68,9 @@ describe 'Ubuntu 16.04 stemcell image', stemcell_image: true do
 
       it 'should be a proper superset of the installed static libraries' do
         libraries_to_remove = subject.content.split("\n")
-        found_libraries = command('find / -iname "*.a" | sort | uniq').stdout.split("\n")
+        found_libraries = command("find / -iname '*.a' | sort | uniq | sed -E 's/(linux.*4.15).*-generic/\\1/'").stdout.split("\n")
 
-        found_libraries.each do |library|
-          expect(libraries_to_remove.include?(library)).to eq(true)
-        end
+        expect(libraries_to_remove).to include(*found_libraries)
       end
     end
   end
@@ -113,6 +112,7 @@ describe 'Ubuntu 16.04 stemcell image', stemcell_image: true do
     exclude_on_vcloud: true,
     exclude_on_vsphere: true,
     exclude_on_warden: true,
+    exclude_on_cloudstack: true,
     exclude_on_openstack: true,
     exclude_on_softlayer: true,
   } do
@@ -129,6 +129,7 @@ describe 'Ubuntu 16.04 stemcell image', stemcell_image: true do
     exclude_on_vcloud: true,
     exclude_on_warden: true,
     exclude_on_openstack: true,
+    exclude_on_cloudstack: true,
     exclude_on_azure: true,
     exclude_on_softlayer: true,
   } do
@@ -144,6 +145,7 @@ describe 'Ubuntu 16.04 stemcell image', stemcell_image: true do
       exclude_on_vcloud: true,
       exclude_on_warden: true,
       exclude_on_openstack: true,
+      exclude_on_cloudstack: true,
       exclude_on_azure: true,
   } do
     describe package('open-iscsi') do
@@ -158,6 +160,7 @@ describe 'Ubuntu 16.04 stemcell image', stemcell_image: true do
       exclude_on_vcloud: true,
       exclude_on_warden: true,
       exclude_on_openstack: true,
+      exclude_on_cloudstack: true,
       exclude_on_azure: true,
   } do
     describe package('multipath-tools') do
@@ -171,6 +174,7 @@ describe 'Ubuntu 16.04 stemcell image', stemcell_image: true do
     exclude_on_vcloud: true,
     exclude_on_warden: true,
     exclude_on_openstack: true,
+    exclude_on_cloudstack: true,
     exclude_on_azure: true,
     exclude_on_softlayer: true,
   } do
@@ -205,6 +209,7 @@ HERE
   context 'installed by bosh_aws_agent_settings', {
     exclude_on_google: true,
     exclude_on_openstack: true,
+    exclude_on_cloudstack: true,
     exclude_on_vcloud: true,
     exclude_on_vsphere: true,
     exclude_on_warden: true,
@@ -220,6 +225,7 @@ HERE
   context 'installed by bosh_google_agent_settings', {
     exclude_on_aws: true,
     exclude_on_openstack: true,
+    exclude_on_cloudstack: true,
     exclude_on_vcloud: true,
     exclude_on_vsphere: true,
     exclude_on_warden: true,
@@ -239,6 +245,7 @@ HERE
     exclude_on_vsphere: true,
     exclude_on_warden: true,
     exclude_on_azure: true,
+    exclude_on_cloudstack: true,
     exclude_on_softlayer: true,
   } do
     describe file('/var/vcap/bosh/agent.json') do
@@ -253,6 +260,7 @@ HERE
     exclude_on_aws: true,
     exclude_on_google: true,
     exclude_on_vcloud: true,
+    exclude_on_cloudstack: true,
     exclude_on_openstack: true,
     exclude_on_warden: true,
     exclude_on_azure: true,
@@ -270,6 +278,7 @@ HERE
       exclude_on_vcloud: true,
       exclude_on_vsphere: true,
       exclude_on_warden: true,
+      exclude_on_cloudstack: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
   } do
@@ -280,6 +289,24 @@ HERE
       its(:content) { should match('"UseRegistry": true') }
     end
   end
+
+  context 'installed by bosh_cloudstack_agent_settings', {
+      exclude_on_aws: true,
+      exclude_on_vcloud: true,
+      exclude_on_vsphere: true,
+      exclude_on_warden: true,
+      exclude_on_azure: true,
+      exclude_on_openstack: true,
+      exclude_on_google: true,
+      exclude_on_softlayer: true,
+  } do
+    describe file('/var/vcap/bosh/agent.json') do
+      it { should be_valid_json_file }
+      its(:content) { should match('"CreatePartitionIfNoEphemeralDisk": true') }
+      its(:content) { should match('"Type": "HTTP"') }
+    end
+  end
+
 
   describe 'mounted file systems: /etc/fstab should mount nfs with nodev (stig: V-38654) (stig: V-38652)' do
     describe file('/etc/fstab') do
@@ -296,18 +323,24 @@ HERE
     end
   end
 
+
+
+
   describe 'installed packages' do
-    dpkg_list_packages = "dpkg --get-selections | cut -f1 | sed -E 's/(linux.*4.4).*/\\1/'"
+    dpkg_list_packages = "dpkg --get-selections | cut -f1 | sed -E 's/(linux.*4.15).*/\\1/'"
 
     let(:dpkg_list_ubuntu) { File.readlines(spec_asset('dpkg-list-ubuntu-xenial.txt')).map(&:chop) }
     let(:dpkg_list_google_ubuntu) { File.readlines(spec_asset('dpkg-list-ubuntu-xenial-google-additions.txt')).map(&:chop) }
     let(:dpkg_list_vsphere_ubuntu) { File.readlines(spec_asset('dpkg-list-ubuntu-xenial-vsphere-additions.txt')).map(&:chop) }
     let(:dpkg_list_azure_ubuntu) { File.readlines(spec_asset('dpkg-list-ubuntu-xenial-azure-additions.txt')).map(&:chop) }
+    let(:dpkg_list_cloudstack_ubuntu) { File.readlines(spec_asset('dpkg-list-ubuntu-xenial-cloudstack-additions.txt')).map(&:chop) }
+
 
     describe command(dpkg_list_packages), {
       exclude_on_google: true,
       exclude_on_vcloud: true,
       exclude_on_vsphere: true,
+      exclude_on_cloudstack: true,
       exclude_on_azure: true,
     } do
       it 'contains only the base set of packages for aws, openstack, warden' do
@@ -322,6 +355,7 @@ HERE
       exclude_on_warden: true,
       exclude_on_azure: true,
       exclude_on_openstack: true,
+      exclude_on_cloudstack: true,
     } do
       it 'contains only the base set of packages plus google-specific packages' do
         expect(subject.stdout.split("\n")).to match_array(dpkg_list_ubuntu.concat(dpkg_list_google_ubuntu))
@@ -333,6 +367,7 @@ HERE
       exclude_on_google: true,
       exclude_on_warden: true,
       exclude_on_azure: true,
+      exclude_on_cloudstack: true,
       exclude_on_openstack: true,
     } do
       it 'contains only the base set of packages plus vsphere-specific packages' do
@@ -346,10 +381,25 @@ HERE
       exclude_on_vsphere: true,
       exclude_on_google: true,
       exclude_on_warden: true,
+      exclude_on_cloudstack: true,
       exclude_on_openstack: true,
     } do
       it 'contains only the base set of packages plus azure-specific packages' do
         expect(subject.stdout.split("\n")).to match_array(dpkg_list_ubuntu.concat(dpkg_list_azure_ubuntu))
+      end
+    end
+
+    describe command(dpkg_list_packages), {
+      exclude_on_aws: true,
+      exclude_on_vcloud: true,
+      exclude_on_vsphere: true,
+      exclude_on_google: true,
+      exclude_on_warden: true,
+      exclude_on_azure: true,
+      exclude_on_openstack: true,
+    } do
+      it 'contains only the base set of packages plus cloudstack-specific packages' do
+        expect(subject.stdout.split("\n")).to match_array(dpkg_list_ubuntu.concat(dpkg_list_cloudstack_ubuntu))
       end
     end
   end

@@ -6,7 +6,7 @@ groups:
       - create-story
       - build-ubuntu-trusty-image
       - build-centos-7-image
-      - bump-os-image
+      - bump-os-images
       - test-unit
       - build-stemcell
       - test-stemcells
@@ -53,7 +53,7 @@ groups:
       - start-job
       - build-ubuntu-trusty-image
       - build-centos-7-image
-      - bump-os-image
+      - bump-os-images
 
 shared:
   - &deploy-director
@@ -152,7 +152,7 @@ jobs:
           file: os-image/centos-7.tgz
           acl: public-read
 
-  - name: bump-os-image
+  - name: bump-os-images
     plan:
       - aggregate:
           - get: bosh-linux-stemcell-builder
@@ -166,8 +166,20 @@ jobs:
           - get: centos-7-tarball
             passed:
               - build-centos-7-image
-      - task: bump-os-image
+      - task: bump-ubuntu-trusty-os-image
         file: bosh-linux-stemcell-builder/ci/os-images/tasks/bump-os-image.yml
+        params:
+          OS_NAME: ubuntu
+          OS_VERSION: trusty
+        input_mapping: { image-tarball: ubuntu-trusty-tarball }
+      - task: bump-centos-7-os-image
+        file: bosh-linux-stemcell-builder/ci/os-images/tasks/bump-os-image.yml
+        params:
+          OS_NAME: centos
+          OS_VERSION: 7
+        input_mapping:
+          image-tarball: centos-7-tarball
+          bosh-linux-stemcell-builder: bosh-linux-stemcell-builder-push
       - put: bosh-linux-stemcell-builder-push
         params:
           repository: bosh-linux-stemcell-builder-push
@@ -663,8 +675,6 @@ jobs:
     serial: true
     plan:
     - aggregate:
-      - get: bosh-release
-      - get: cpi-release
       - get: stemcell
         trigger: true
         tags:
@@ -672,6 +682,12 @@ jobs:
         resource: vsphere-esxi-centos-7
         passed:
         - build-vsphere-esxi-centos-7
+      - get: ubuntu-stemcell
+        tags:
+        - vsphere-v6.5
+        resource: vsphere-esxi-ubuntu-trusty
+        passed:
+          - build-vsphere-esxi-ubuntu-trusty
       - get: bosh-cli
       - get: bats
       - get: bosh-deployment
@@ -711,6 +727,8 @@ jobs:
 
       - do:
         - <<: *deploy-director
+          input_mapping:
+            stemcell: ubuntu-stemcell
 
         - <<: *prepare-bats-config
           params:
@@ -728,8 +746,6 @@ jobs:
     serial: true
     plan:
     - aggregate:
-      - get: bosh-release
-      - get: cpi-release
       - get: stemcell
         trigger: true
         tags:
@@ -809,6 +825,15 @@ resources:
     source:
       uri: https://github.com/cloudfoundry/bosh-linux-stemcell-builder
       branch: master
+      ignore_paths:
+        - bosh-stemcell/image-metalinks/ubuntu-xenial.meta4
+
+  - name: bosh-linux-stemcell-builder-push
+    type: git
+    source:
+      uri: git@github.com:cloudfoundry/bosh-linux-stemcell-builder
+      branch: master
+      private_key: ((bosh_src_key))
 
   - name: bosh-linux-stemcell-builder-push
     type: git
@@ -840,16 +865,6 @@ resources:
     type: bosh-io-release
     source:
       repository: cloudfoundry/os-conf-release
-
-  - name: bosh-release
-    type: bosh-io-release
-    source:
-      repository: cloudfoundry/bosh
-
-  - name: cpi-release
-    type: bosh-io-release
-    source:
-      repository: cloudfoundry-incubator/bosh-vsphere-cpi-release
 
   #
   # WARDEN

@@ -70,3 +70,16 @@ respawn
 exec /sbin/getty -8 38400 hvc0
 HVC_CONF
 fi
+
+if is_x86_64; then
+  # Add Xen hypervisor console support
+  cat > ${image_mount_point}/etc/init/hvc0.conf <<HVC_CONF
+
+start on stopped rc RUNLEVEL=[2345]
+stop on runlevel [!2345]
+
+respawn
+exec /sbin/getty -8 38400 hvc0
+HVC_CONF
+fi
+

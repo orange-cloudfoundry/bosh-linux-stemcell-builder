@@ -35,5 +35,5 @@ source $base_dir/lib/prelude_apply.bash
 #run_in_chroot $chroot "wget http://archive.ubuntu.com/ubuntu/pool/universe/x/xe-guest-utilities/xe-guest-utilities_7.4.0-0ubuntu1_amd64.deb -P $chroot/tmp/"
 #run_in_chroot $chroot "sudo dpkg -i $chroot/tmp/xe-guest-utilities_7.4.0-0ubuntu1_amd64.deb"
 
-cp  $(dirname $0)/assets/xe-guest-utilities_7.3.0-1_amd64.deb  $chroot/tmp/
-run_in_chroot $chroot "sudo dpkg -i  /tmp/xe-guest-utilities_7.3.0-1_amd64.deb"
+cp  $(dirname $0)/assets/xe-guest-utilities_7.4.0-0ubuntu1_amd64.deb  $chroot/tmp/
+run_in_chroot $chroot "sudo dpkg -i  /tmp/xe-guest-utilities_7.4.0-0ubuntu1_amd64.deb"

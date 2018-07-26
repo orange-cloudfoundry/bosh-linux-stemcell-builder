@@ -53,6 +53,7 @@ describe 'Ubuntu 14.04 OS image', os_image: true do
       netbase
       netcat-openbsd
       ntpdate
+      nvme-cli
       parted
       passwd
       procps
@@ -255,12 +256,6 @@ describe 'Ubuntu 14.04 OS image', os_image: true do
     describe file('/etc/passwd') do
       it { should be_file }
       its(:content) { should match '/home/vcap:/bin/bash' }
-    end
-  end
-
-  context 'installed from source' do
-    describe package('libyaml-dev') do
-      it { should_not be_installed }
     end
   end
 
