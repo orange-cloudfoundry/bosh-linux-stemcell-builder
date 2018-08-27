@@ -416,15 +416,15 @@ shared_examples_for 'every OS image' do
     end
   end
 
-  describe file('/etc/login.defs') do
-    it('should not allow users to cycle passwords quickly (stig: V-38477)') do
-      expect(subject.content).to match /^PASS_MIN_DAYS 1/
-    end
-
-    it('should use an approved hashing algorithm to save the password (stig: V-38576)') do
-      expect(subject.content).to match /^ENCRYPT_METHOD SHA512/
-    end
-  end
+#  describe file('/etc/login.defs') do
+#    it('should not allow users to cycle passwords quickly (stig: V-38477)') do
+#      expect(subject.content).to match /^PASS_MIN_DAYS 1/
+#    end
+#
+#    it('should use an approved hashing algorithm to save the password (stig: V-38576)') do
+#      expect(subject.content).to match /^ENCRYPT_METHOD SHA512/
+#    end
+#  end
 
   # NOTE: These shared examples are executed in the OS image building spec,
   # suites and the Stemcell building spec suites. In the OS image suites
