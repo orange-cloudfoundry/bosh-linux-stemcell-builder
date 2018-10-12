@@ -835,13 +835,6 @@ resources:
       branch: master
       private_key: ((bosh_src_key))
 
-  - name: bosh-linux-stemcell-builder-push
-    type: git
-    source:
-      uri: git@github.com:cloudfoundry/bosh-linux-stemcell-builder
-      branch: master
-      private_key: ((bosh_src_key))
-
   - name: stemcells-index
     type: git
     source:
