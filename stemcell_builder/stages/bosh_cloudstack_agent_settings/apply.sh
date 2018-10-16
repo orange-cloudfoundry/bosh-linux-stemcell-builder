@@ -2,19 +2,15 @@
 
 base_dir=$(readlink -nf $(dirname $0)/../..)
 source $base_dir/lib/prelude_apply.bash
+source $base_dir/lib/prelude_agent.bash
 
 agent_settings_file=$chroot/var/vcap/bosh/agent.json
-
-
-#source is http registry
-#key to find instance in registry is servername
-#for cloudstack, infrastructure networking is dhcp (set by registry, use_dhcp=true)
-
 
 cat > $agent_settings_file <<JSON
 {
   "Platform": {
     "Linux": {
+      $(get_partitioner_type_mapping)
       "CreatePartitionIfNoEphemeralDisk": true,
       "DevicePathResolutionType": "virtio"
     }
@@ -35,8 +31,6 @@ cat > $agent_settings_file <<JSON
       "UseServerName": true,
       "UseRegistry": true
     }
-
   }
 }
 JSON
-
