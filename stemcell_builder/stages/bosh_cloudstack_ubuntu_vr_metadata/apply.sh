@@ -8,6 +8,6 @@ source $base_dir/lib/prelude_apply.bash
 
 
 mkdir -p $chroot/tmp/mdproxy4cs/
-cp $(dirname $0)/assets/install.sh
+cp $(dirname $0)/assets/install.sh $chroot/tmp/mdproxy4cs/
 
 run_in_chroot $chroot "sudo bash /tmp/mdproxy4cs/install.sh"

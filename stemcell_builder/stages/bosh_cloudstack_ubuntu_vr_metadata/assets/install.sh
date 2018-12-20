@@ -1,15 +1,8 @@
 #!/bin/bash
 set -e
 
-get_latest_release() {
-  curl -sL "https://api.github.com/repos/$1/releases/latest" |
-    grep '"tag_name":' |
-    sed -E 's/.*"([^"]+)".*/\1/' |
-    sed -E 's/v?(.*)/\1/g'
-}
-
 repo="orange-cloudfoundry/mdproxy4cs"
-version=$(get_latest_release "${repo}")
+version="1.0.0"
 name="mdproxy4cs-${version}.linux-amd64"
 file="${name}.tar.gz"
 dir=$(mktemp -d)
