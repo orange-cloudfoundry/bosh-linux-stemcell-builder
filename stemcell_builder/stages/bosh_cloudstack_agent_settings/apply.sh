@@ -24,10 +24,8 @@ cat > $agent_settings_file <<JSON
           "UserDataPath": "/latest/user-data",
           "InstanceIDPath": "/latest/meta-data/instance-id",
           "SSHKeysPath": "/latest/meta-data/public-keys"
-          
         }
       ],
-
       "UseServerName": true,
       "UseRegistry": true
     }
