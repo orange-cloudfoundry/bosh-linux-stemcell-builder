@@ -20,7 +20,7 @@ cat > $agent_settings_file <<JSON
       "Sources": [
         {
           "Type": "HTTP",
-          "URI": "http://169.254.169.254",
+          "URI": "http://169.254.169.254:39724",
           "UserDataPath": "/latest/user-data",
           "InstanceIDPath": "/latest/meta-data/instance-id",
           "SSHKeysPath": "/latest/meta-data/public-keys"
