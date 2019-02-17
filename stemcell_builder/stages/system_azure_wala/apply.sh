@@ -8,8 +8,8 @@ source $base_dir/lib/prelude_apply.bash
 packages="python python-pyasn1 python-setuptools"
 pkg_mgr install $packages
 
-wala_release=2.2.25
-wala_expected_sha1=8fb9ef0558c11b70b48188fb5afd53eadc321fac
+wala_release=2.2.36
+wala_expected_sha1=9ff7fdb01f06f1f021669c3c4d024e172246eeb9
 
 curl -L https://github.com/Azure/WALinuxAgent/archive/v${wala_release}.tar.gz > /tmp/wala.tar.gz
 sha1=$(cat /tmp/wala.tar.gz | openssl dgst -sha1  | awk 'BEGIN {FS="="}; {gsub(/ /,"",$2); print $2}')
@@ -34,18 +34,9 @@ run_in_chroot $chroot "
 "
 cp -f $dir/assets/etc/waagent.conf $chroot/etc/waagent.conf
 
-if [ ${DISTRIB_CODENAME} == 'trusty' ]; then
-  cp -a $dir/assets/runit/waagent $chroot/etc/sv/waagent
-  # Set up waagent with runit
-  run_in_chroot $chroot "
-  chmod +x /etc/sv/waagent/run
-  ln -s /etc/sv/waagent /etc/service/waagent
-  "
-else
-  cp -f $dir/assets/etc/walinuxagent.service $chroot/lib/systemd/system/walinuxagent.service
-  chmod 0755 $chroot/lib/systemd/system/walinuxagent.service
-  run_in_chroot $chroot "systemctl enable walinuxagent.service"
-fi
+cp -f $dir/assets/etc/walinuxagent.service $chroot/lib/systemd/system/walinuxagent.service
+chmod 0644 $chroot/lib/systemd/system/walinuxagent.service
+run_in_chroot $chroot "systemctl enable walinuxagent.service"
 
 cat > $chroot/etc/logrotate.d/waagent <<EOS
 /var/log/waagent.log {

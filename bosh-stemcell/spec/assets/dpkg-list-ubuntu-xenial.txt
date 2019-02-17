@@ -16,7 +16,6 @@ bison
 bsdmainutils
 bsdutils
 build-essential
-busybox-initramfs
 bzip2
 ca-certificates
 chrony
@@ -25,6 +24,7 @@ cmake
 cmake-data
 console-setup
 console-setup-linux
+console-setup-mini
 coreutils
 cpio
 cpp
@@ -44,9 +44,12 @@ dh-strip-nondeterminism
 diffutils
 distro-info-data
 dkms
+dmsetup
 dnsutils
 dpkg
 dpkg-dev
+dracut
+dracut-core
 e2fslibs:amd64
 e2fsprogs
 eject
@@ -77,9 +80,7 @@ icu-devtools
 ifupdown
 init
 init-system-helpers
-initramfs-tools
 initramfs-tools-bin
-initramfs-tools-core
 initscripts
 insserv
 install-info
@@ -98,6 +99,7 @@ kbd
 keyboard-configuration
 klibc-utils
 kmod
+kpartx
 less
 libacl1:amd64
 libaio1:amd64
@@ -180,7 +182,6 @@ libgpg-error-dev
 libgpg-error0:amd64
 libgssapi-krb5-2:amd64
 libgssapi3-heimdal:amd64
-libgt0
 libhcrypto4-heimdal:amd64
 libheimbase1-heimdal:amd64
 libheimntlm0-heimdal:amd64
@@ -206,7 +207,6 @@ libkrb5-3:amd64
 libkrb5support0:amd64
 libldap-2.4-2:amd64
 liblocale-gettext-perl
-liblogging-stdlog1
 liblognorm5
 liblsan0:amd64
 liblwres141:amd64
@@ -340,6 +340,7 @@ patch
 perl
 perl-base
 perl-modules-5.22
+pkg-config
 po-debconf
 procps
 psmisc
@@ -383,7 +384,6 @@ timelimit
 traceroute
 tzdata
 ubuntu-keyring
-ubuntu-minimal
 ucf
 udev
 unzip

@@ -4,15 +4,13 @@ base_dir=$(readlink -nf $(dirname $0)/../..)
 source $base_dir/lib/prelude_apply.bash
 source $base_dir/lib/prelude_agent.bash
 
-# Set SettingsPath but never use it because file_meta_service is available only when the settings file exists.
 cat > $chroot/var/vcap/bosh/agent.json <<JSON
 {
   "Platform": {
     "Linux": {
       $(get_partitioner_type_mapping)
       "CreatePartitionIfNoEphemeralDisk": true,
-      "ScrubEphemeralDisk": true,
-      "DevicePathResolutionType": "iscsi"
+      "DevicePathResolutionType": "virtio"
     }
   },
   "Infrastructure": {
@@ -20,14 +18,15 @@ cat > $chroot/var/vcap/bosh/agent.json <<JSON
       "Sources": [
         {
           "Type": "HTTP",
-          "URI": "https://api.service.softlayer.com",
-          "UserDataPath": "/rest/v3.1/SoftLayer_Resource_Metadata/getUserMetadata.json"
+          "URI": "http://100.100.100.200",
+          "UserDataPath": "/latest/user-data",
+          "InstanceIDPath": "/latest/meta-data/instance-id",
+          "SSHKeysPath": "/latest/meta-data/public-keys/0/openssh-key"
         }
       ],
-      "UseServerName": true,
+      "UseServerName": false,
       "UseRegistry": true
     }
   }
 }
-
 JSON
