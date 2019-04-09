@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metalink xmlns="urn:ietf:params:xml:ns:metalink">
   <file name="bosh-ubuntu-xenial-os-image.tgz">
-    <hash type="md5">dc598b4823c478f4cc987c9ed4dde00f</hash>
-    <hash type="sha-1">26568de9d24875ac81ef049eaaa7c14ae799f602</hash>
-    <hash type="sha-256">e53bf8067869257fa6511705077e0f46097492d7cda30705cea1b0961d946147</hash>
-    <hash type="sha-512">2efbcdc7bb00eeba76d6e9ee9e1cbdaa6ce06af1ee1af937db159b21db796c8d83752f475bec65a6307c6f141413bf10bf24959dde2e247b5fb75aa2f5b11d4a</hash>
-    <size>502050307</size>
-    <url>https://s3.amazonaws.com/bosh-os-images/bosh-ubuntu-xenial-os-image.tgz?versionId=ZWQhIUJB0U.OI.1CJp2FX.MiqT241YnC</url>
+    <hash type="md5">f4c0229f74ce8ea3e062a33e687f9fee</hash>
+    <hash type="sha-1">1ecf02e699a320e879ce262260c4b6ae0f5dd506</hash>
+    <hash type="sha-256">9e49c4c4b854039cfb605ce5c7eb6875a12b6c2171a3ff828c9a6cf587753d3c</hash>
+    <hash type="sha-512">cef2ff94a476c381ceae01cd664e74dfccb5e53f5c169f35ca193f3bc0e83d11af07ae010e58f831a1ca61eb039e66e7c0f3dce7f1767de1fd6dd11a17780aa4</hash>
+    <size>502190765</size>
+    <url>https://s3.amazonaws.com/bosh-os-images/bosh-ubuntu-xenial-os-image.tgz?versionId=MlcJbYK1iOZIMJfVvSA9leaFvRRHTP_B</url>
   </file>
   <generator>metalink.dpb587.github.io/0.0.0</generator>
 </metalink>
