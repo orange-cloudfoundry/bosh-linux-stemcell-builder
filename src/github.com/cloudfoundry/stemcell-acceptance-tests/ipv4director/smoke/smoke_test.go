@@ -1,6 +1,7 @@
 package smoke_test
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -11,6 +12,8 @@ import (
 
 	"strconv"
 
+	yaml "gopkg.in/yaml.v2"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -18,37 +21,45 @@ import (
 var _ = Describe("Stemcell", func() {
 	Context("when logrotate wtmp/btmp logs", func() {
 		It("should rotate the wtmp/btmp logs", func() {
-			stdOut, stdErr, exitStatus, err := bosh.Run("ssh", "default/0", `sudo bash -c "dd if=/dev/urandom count=10000 bs=1024 >> /var/log/wtmp" \
-		&& sudo bash -c "dd if=/dev/urandom count=10000 bs=1024 >> /var/log/btmp" \
-		&& sudo sed -i "s/0,15,30,45/\*/" /etc/cron.d/logrotate`)
+			stdOut, stdErr, exitStatus, err := bosh.Run("ssh", "default/0", `sudo bash -c "dd if=<(tr -cd '[:alnum:]' < /dev/urandom) count=10000 bs=1024 >> /var/log/wtmp" \
+		&& sudo bash -c "dd if=<(tr -cd '[:alnum:]' < /dev/urandom) count=10000 bs=1024 >> /var/log/btmp" \
+		&& sudo sed -E -i "s/[0-9,]+/\*/" /etc/cron.d/logrotate`)
 			Expect(err).ToNot(HaveOccurred())
 			Expect(exitStatus).To(Equal(0), fmt.Sprintf("stdOut: %s \n stdErr: %s", stdOut, stdErr))
 
-			time.Sleep(62 * time.Second)
+			Eventually(func() int {
+				stdOut, _, _, err = bosh.Run("ssh", "--column=stdout", "--results", "default/0", "sudo du /var/log/wtmp | cut -f1")
+				Expect(err).ToNot(HaveOccurred())
+				fileSizeInKiloBytes, err := strconv.Atoi(strings.TrimSpace(stdOut))
+				Expect(err).ToNot(HaveOccurred(), "error converting kB file size to integer")
+				return fileSizeInKiloBytes
+			}, 2*time.Minute, 15*time.Second).Should(BeNumerically("<", 100), "Logfile was larger than expected. It should have been rotated.")
 
-			stdOut, _, _, err = bosh.Run("ssh", "--column=stdout", "--results", "default/0", "sudo du /var/log/wtmp | cut -f1")
-			Expect(err).ToNot(HaveOccurred())
-			fileSizeInKiloBytes, err := strconv.Atoi(strings.TrimSpace(stdOut))
-			Expect(err).ToNot(HaveOccurred(), "error converting kB file size to integer")
-			Expect(fileSizeInKiloBytes).To(BeNumerically("<", 100), "Logfile was larger than expected. It should have been rotated.")
-
-			stdOut, _, _, err = bosh.Run("ssh", "--column=stdout", "--results", "default/0", "sudo du /var/log/btmp | cut -f1")
-			Expect(err).ToNot(HaveOccurred())
-			fileSizeInKiloBytes, err = strconv.Atoi(strings.TrimSpace(stdOut))
-			Expect(err).ToNot(HaveOccurred(), "error converting kB file size to integer")
-			Expect(fileSizeInKiloBytes).To(BeNumerically("<", 100), "Logfile was larger than expected. It should have been rotated.")
+			Eventually(func() int {
+				stdOut, _, _, err = bosh.Run("ssh", "--column=stdout", "--results", "default/0", "sudo du /var/log/btmp | cut -f1")
+				Expect(err).ToNot(HaveOccurred())
+				fileSizeInKiloBytes, err := strconv.Atoi(strings.TrimSpace(stdOut))
+				Expect(err).ToNot(HaveOccurred(), "error converting kB file size to integer")
+				return fileSizeInKiloBytes
+			}, 2*time.Minute, 15*time.Second).Should(BeNumerically("<", 100), "Logfile was larger than expected. It should have been rotated.")
 		})
 	})
 
 	Context("when syslog threshold limit is reached", func() {
 		It("should rotate the logs", func() {
 			_, _, exitStatus, err := bosh.Run("ssh", "default/0", `logger "old syslog content" \
-	&& sudo bash -c "dd if=/dev/urandom count=10000 bs=1024 >> /var/log/syslog" \
-	&& sudo sed -i "s/0,15,30,45/\*/" /etc/cron.d/logrotate`)
+	&& sudo bash -c "dd if=<(tr -cd '[:alnum:]' < /dev/urandom) count=10000 bs=1024 >> /var/log/syslog" \
+	&& sudo sed -E -i "s/[0-9,]+/\*/" /etc/cron.d/logrotate`)
 			Expect(err).ToNot(HaveOccurred())
 			Expect(exitStatus).To(Equal(0))
 
-			time.Sleep(62 * time.Second)
+			Eventually(func() int {
+				stdOut, _, _, err := bosh.Run("ssh", "--column=stdout", "--results", "default/0", "sudo du /var/vcap/data/root_log/syslog | cut -f1")
+				Expect(err).ToNot(HaveOccurred())
+				fileSizeInKiloBytes, err := strconv.Atoi(strings.TrimSpace(stdOut))
+				Expect(err).ToNot(HaveOccurred(), "error converting kB file size to integer")
+				return fileSizeInKiloBytes
+			}, 2*time.Minute, 15*time.Second).Should(BeNumerically("<", 100), "Logfile was larger than expected. It should have been rotated.")
 
 			stdOut, stdErr, exitStatus, err := bosh.Run("ssh", "default/0", `logger "new syslog content"`)
 			Expect(err).ToNot(HaveOccurred())
@@ -117,7 +128,7 @@ var _ = Describe("Stemcell", func() {
 		stdout, _, exitStatus, err := bosh.Run(
 			"--column=stdout",
 			"ssh", "default/0", "-r",
-			"-c", `logger story146390925 && sleep 1 && sudo grep story146390925 /var/log/messages`,
+			"-c", `logger story146390925 && sleep 1 && sudo grep story146390925 /var/log/syslog`,
 		)
 		Expect(err).ToNot(HaveOccurred())
 		Expect(exitStatus).To(Equal(0))
@@ -178,7 +189,7 @@ var _ = Describe("Stemcell", func() {
 		opsFilePath, err := filepath.Abs("remove_dev_tools_and_static_libraries.yml")
 		Expect(err).NotTo(HaveOccurred())
 
-		bosh.Deploy("--recreate", "-o", opsFilePath)
+		bosh.SafeDeploy("--recreate", "-o", opsFilePath)
 		stdout, _, exitStatus, err := bosh.Run(
 			"--column=stdout",
 			"ssh", "default/0", "-r", "-c",
@@ -203,7 +214,7 @@ var _ = Describe("Stemcell", func() {
 			_, _, exitStatus, err := bosh.Run(
 				"--column=stdout",
 				"ssh", "default/0", "-r", "-c",
-				`logger -p daemon.error "Line in daemon.log"; sudo ls /var/log/{audit,auth.log,btmp,daemon.log,debug,kern.log,lastlog,messages,syslog,sysstat,user.log,wtmp}`,
+				`logger -p daemon.error "Line in daemon.log"; sudo ls /var/log/{audit,auth.log,btmp,daemon.log,kern.log,lastlog,syslog,sysstat,wtmp}`,
 			)
 
 			Expect(err).ToNot(HaveOccurred())
@@ -256,6 +267,129 @@ var _ = Describe("Stemcell", func() {
 			Expect(err).ToNot(HaveOccurred())
 			Expect(exitStatus).To(Equal(0))
 		})
+
+		It("can write log messages to the system log file", func() {
+			_, _, exitStatus, err := bosh.Run(
+				"--column=stdout",
+				"ssh", "default/0", "-r", "-c",
+				`sudo adduser --disabled-password --gecos "" --quiet testuser && sudo -u testuser logger syslog-line && sudo userdel testuser`,
+			)
+
+			Expect(err).ToNot(HaveOccurred())
+			Expect(exitStatus).To(Equal(0))
+		})
 	})
 
+	Context("#164749230, when using targeted blobstores", func() {
+		type agentSettings struct {
+			Env struct {
+				BoshEnv struct {
+					Blobstores []struct {
+						Options struct {
+							Endpoint string `json:"endpoint"`
+							Password string `json:"password"`
+							Tls      struct {
+								Cert struct {
+									Ca string `json:"ca"`
+								} `json:"cert"`
+							} `json:"tls"`
+						} `json:"options"`
+					} `json:"blobstores"`
+				} `json:"bosh"`
+			} `json:"env"`
+		}
+
+		type blobStoreVars struct {
+			Endpoint               string `yaml:"endpoint"`
+			BlobstoreAgentPassword string `yaml:"blobstore_agent_password"`
+			BlobstoreCaCertificate string `yaml:"blobstore_ca_certificate"`
+		}
+
+		AfterEach(func() {
+			bosh.SafeDeploy()
+		})
+
+		Context("when deploying with a invalid logs blobstore", func() {
+			It("should fail to get logs, but the deploy should succeed", func() {
+				config := agentSettings{}
+				stdout, _, exitStatus, err := bosh.Run(
+					"--column=stdout",
+					"ssh", "default/0", "-r", "-c",
+					`sudo cat /var/vcap/bosh/settings.json`,
+				)
+				Expect(err).ToNot(HaveOccurred())
+				Expect(exitStatus).To(Equal(0))
+
+				err = json.Unmarshal([]byte(stdout), &config)
+				Expect(err).NotTo(HaveOccurred())
+
+				opsFile, err := filepath.Abs("add-invalid-logs-blobstore.yml")
+				Expect(err).ToNot(HaveOccurred())
+
+				blobstoreVarFile, err := ioutil.TempFile("", "blobstore_config")
+				Expect(err).NotTo(HaveOccurred())
+				bsv := blobStoreVars{
+					Endpoint:               config.Env.BoshEnv.Blobstores[0].Options.Endpoint,
+					BlobstoreAgentPassword: config.Env.BoshEnv.Blobstores[0].Options.Password,
+					BlobstoreCaCertificate: config.Env.BoshEnv.Blobstores[0].Options.Tls.Cert.Ca,
+				}
+				yamlBytes, err := yaml.Marshal(bsv)
+				Expect(err).NotTo(HaveOccurred())
+				blobstoreVarFile.Write(yamlBytes)
+				blobstoreVarFile.Close()
+
+				bosh.SafeDeploy("-o", opsFile,
+					"--vars-file", blobstoreVarFile.Name(),
+				)
+
+				name, err := ioutil.TempDir("", "bosh-logs")
+				Expect(err).ToNot(HaveOccurred())
+
+				stdout, _, exitStatus, err = bosh.Run(
+					"logs", "default/0", fmt.Sprintf("--dir=%s", name),
+				)
+				Expect(err).To(HaveOccurred())
+				Expect(exitStatus).To(Equal(1))
+				Expect(strings.TrimSpace(stdout)).To(MatchRegexp("bosh-blobstore-dav -c /var/vcap/bosh/etc/invalid/blobstore-dav.json"))
+			})
+		})
+
+		Context("when deploying with an invalid packages blobstore", func() {
+			It("should fail to deploy", func() {
+				config := agentSettings{}
+				stdout, _, exitStatus, err := bosh.Run(
+					"--column=stdout",
+					"ssh", "default/0", "-r", "-c",
+					`sudo cat /var/vcap/bosh/settings.json`,
+				)
+				Expect(err).ToNot(HaveOccurred())
+				Expect(exitStatus).To(Equal(0))
+
+				err = json.Unmarshal([]byte(stdout), &config)
+				Expect(err).NotTo(HaveOccurred())
+
+				opsFile, err := filepath.Abs("add-invalid-packages-blobstore.yml")
+				Expect(err).ToNot(HaveOccurred())
+
+				blobstoreVarFile, err := ioutil.TempFile("", "blobstore_config")
+				Expect(err).NotTo(HaveOccurred())
+				bsv := blobStoreVars{
+					Endpoint:               config.Env.BoshEnv.Blobstores[0].Options.Endpoint,
+					BlobstoreAgentPassword: config.Env.BoshEnv.Blobstores[0].Options.Password,
+					BlobstoreCaCertificate: config.Env.BoshEnv.Blobstores[0].Options.Tls.Cert.Ca,
+				}
+				yamlBytes, err := yaml.Marshal(bsv)
+				Expect(err).NotTo(HaveOccurred())
+				blobstoreVarFile.Write(yamlBytes)
+				blobstoreVarFile.Close()
+
+				stdOut, stdErr, exitStatus, err := bosh.UnsafeDeploy("-o", opsFile,
+					"--vars-file", blobstoreVarFile.Name(),
+				)
+				Expect(err).To(HaveOccurred())
+				Expect(stdOut).To(MatchRegexp("bosh-blobstore-dav -c /var/vcap/bosh/etc/invalid/blobstore-dav.json"))
+				Expect(exitStatus).To(Equal(1), fmt.Sprintf("stdOut: %s \n stdErr: %s", stdOut, stdErr))
+			})
+		})
+	})
 })
