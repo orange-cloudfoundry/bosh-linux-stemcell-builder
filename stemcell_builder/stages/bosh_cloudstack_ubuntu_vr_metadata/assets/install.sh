@@ -9,7 +9,7 @@ dir=$(mktemp -d)
 
 cd ${dir}
 
-curl -sL https://github.com/${repo}/releases/download/v${version}/${file} --output ${file}
+curl -L https://github.com/${repo}/releases/download/v${version}/${file} --output ${file}
 tar xzf ${file}
 
 mkdir -p /usr/share/mdproxy4cs/
