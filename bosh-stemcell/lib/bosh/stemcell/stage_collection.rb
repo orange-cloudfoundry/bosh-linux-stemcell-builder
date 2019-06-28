@@ -124,7 +124,8 @@ module Bosh::Stemcell
           :system_network,
           :system_openstack_modules,
           :bosh_cloudstack_ubuntu_vr_metadata,
-		  :system_ubuntu_xen_tools,          
+          :system_ubuntu_xen_tools,          
+          :system_ubuntu_sackpanic_fix,
                     
         ]
       end
