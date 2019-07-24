@@ -44,9 +44,7 @@ apt-get -y install git
 apt-get -y install build-essential
 
 # ensure the correct kernel headers are installed
-apt-get -y install linux-headers-$(uname -r)
-
-
+apt-get -y install linux-headers-generic
 
 # stemcell image creation
 apt-get -y install debootstrap kpartx
@@ -72,6 +70,8 @@ apt-get -y install yum
 # needed by stemcell building
 apt-get -y install parted
 
+# needed by stemcell building to debug issue in kpartx/parted
+apt-get -y install lsof
 
 
 mkdir -p /mnt/tmp

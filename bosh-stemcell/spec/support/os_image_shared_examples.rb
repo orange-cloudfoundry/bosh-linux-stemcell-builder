@@ -1,5 +1,14 @@
 shared_examples_for 'every OS image' do
   let(:sshd_config) { file('/etc/ssh/sshd_config') }
+  let(:etc_environment) { file('/etc/environment') }
+
+  context 'etc_environment' do
+    it 'should have /var/vcap/bosh/bin on the PATH' do
+      expect(etc_environment.content).to match(
+        %r{PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/var/vcap/bosh/bin"},
+      )
+    end
+  end
 
   context 'installed by base_<os>' do
     describe command('dig -v') do # required by agent
