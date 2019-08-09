@@ -1,9 +1,8 @@
 dirmngr
+gce-compute-image-packages
 gnupg
 gnupg-l10n
 gnupg-utils
-google-cloud-packages-archive-keyring
-google-compute-engine
 google-compute-engine-oslogin
 gpg-wks-client
 gpg-wks-server
@@ -16,6 +15,7 @@ python
 python-boto
 python-certifi
 python-chardet
+python3-cryptography
 python-google-compute-engine
 python-idna
 python-minimal
