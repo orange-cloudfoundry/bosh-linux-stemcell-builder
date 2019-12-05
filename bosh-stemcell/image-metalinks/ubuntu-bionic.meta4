@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metalink xmlns="urn:ietf:params:xml:ns:metalink">
   <file name="bosh-ubuntu-bionic-os-image.tgz">
-    <hash type="md5">55491ef761b728746588667c6a9c89b2</hash>
-    <hash type="sha-1">1d123def0feb24679a46fdfa6e3df07bd5941bb7</hash>
-    <hash type="sha-256">a628c99c6042dea0ca9d249b3c9e7f1f9becf1c7c477665dc72d34d2671551ce</hash>
-    <hash type="sha-512">be953e3dfe3ee2b1f1997f4eebc2026a20e0572bd714e16f6f499e6334e3720e713588da30548c92f96a10d511f717c480ee20e298fa29a22a827bf66811ca0c</hash>
-    <size>574494317</size>
-    <url>https://s3.amazonaws.com/bosh-os-images/bosh-ubuntu-bionic-os-image.tgz?versionId=eZ98MqImn4CrdmW94p1iOBTN89E64Z1C</url>
+    <hash type="md5">cabfb2108af87139d69f040e8bb8ab74</hash>
+    <hash type="sha-1">8c4c342707e09f5f35f382213bd7ed0a033a3292</hash>
+    <hash type="sha-256">97dd63b3338191dc13b86d3ab0b7c55f5d3fb5bcfca7d6a67cc747ebd685c038</hash>
+    <hash type="sha-512">3ffb76aef563691a2028fd7ecb7e7c0925884b9f0379fc1aaa021fa3180564db865f846e72431f2aba7465b3f1d05f72bfd497ddfd42c141360bdc97c4817043</hash>
+    <size>581026335</size>
+    <url>https://s3.amazonaws.com/bosh-os-images/bosh-ubuntu-bionic-os-image.tgz?versionId=unHaF_RNODw64_ibm_cgTvCmT974MR6i</url>
   </file>
   <file name="usn-log.json">
     <hash type="md5">54f28a1e1fd7bb33f701a1843d23b891</hash>
