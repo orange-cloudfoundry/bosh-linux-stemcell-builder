@@ -9,7 +9,7 @@ source $base_dir/lib/prelude_config.bash
 cd $assets_dir
 rm -rf gcscli
 mkdir gcscli
-current_version=0.0.6
+current_version=0.0.16
 
 curl -L -o gcscli/gcscli https://s3.amazonaws.com/bosh-gcscli/bosh-gcscli-${current_version}-linux-amd64
-echo "3ffcadf25558ccb3ee51f6b040c90978d3b68cd1 gcscli/gcscli" | sha1sum -c -
+echo "94685c1a460203575df6c039cfdd841cc26fbec2 gcscli/gcscli" | sha1sum -c -
