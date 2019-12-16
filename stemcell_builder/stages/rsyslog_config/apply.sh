@@ -41,7 +41,6 @@ filenames=( auth.log cloud-init.log daemon.log debug kern.log lpr.log mail.err m
               mail.log mail.warn messages news/news.crit news/news.err \
               news/news.notice syslog user.log cron.log )
 
-
 run_in_bosh_chroot $chroot "
   mkdir -p /var/log/news
 "
