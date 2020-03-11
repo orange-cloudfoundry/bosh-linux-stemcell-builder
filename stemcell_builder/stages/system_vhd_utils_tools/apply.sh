@@ -5,15 +5,7 @@ set -e
 base_dir=$(readlink -nf $(dirname $0)/../..)
 source $base_dir/lib/prelude_apply.bash
 
-opt=""
-if [ ! -z "${http_proxy}" ]; then
-    opt="${opt} -o Acquire::http::Proxy=http://${http_proxy}"
-fi
-
-if [ ! -z "${https_proxy}" ]; then
-    opt="${opt} -o Acquire::https::Proxy=https://${https_proxy}"
-fi
-sudo apt-get install -y uuid-dev ${opt}
+apt-get update -y && apt install -y uuid-dev
 
 cd /tmp
 rm -rf vhd-util-convert

@@ -128,14 +128,13 @@ module Bosh::Stemcell
           :system_network,
           :system_openstack_modules,
           :bosh_cloudstack_ubuntu_vr_metadata,
-	  :system_ubuntu_xen_tools,         
-          #:image_cloudstack_update_grub,
+	        :system_ubuntu_xen_tools,
         ]
       end
 
       stages += [
         :system_parameters,
-	:system_vhd_utils_tools,
+	      :system_vhd_utils_tools,
         :bosh_clean,
         :bosh_harden,
         :bosh_cloudstack_agent_settings,
@@ -423,7 +422,7 @@ module Bosh::Stemcell
       [
         :prepare_vhd_image_stemcell,
       ]
-    end      
+    end
 
     def vhdx_package_stages
       [
