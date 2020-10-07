@@ -2,8 +2,8 @@
 set -e
 
 repo="orange-cloudfoundry/mdproxy4cs"
-version="1.0.1"
-name="mdproxy4cs-${version}.linux-amd64"
+version="1.0.2"
+name="mdproxy4cs-${version}-linux-amd64"
 file="${name}.tar.gz"
 dir=$(mktemp -d)
 
